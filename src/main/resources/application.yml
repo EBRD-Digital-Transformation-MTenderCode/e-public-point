@@ -1,0 +1,21 @@
+spring:
+ application:
+   name: e-point
+ data:
+   cassandra:
+     contact-points: 127.0.0.1
+     keyspace-name: ocds
+     port: 9042
+     username: cassandra
+     password: cassandra
+ servlet:
+   multipart:
+     enabled: true
+     max-file-size: 60Mb
+
+upload:
+ file:
+   max-weight: 60
+   path: https://point.eprocurement.systems/get/
+   folder: /home/user/point/
+   extensions: jpg,png,gif,tif,rar,zip,7s,doc,docx,xls,xlsx,pdf,rtf,txt
