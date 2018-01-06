@@ -1,10 +1,19 @@
 package com.procurement.point.service;
 
-import com.procurement.point.model.dto.ResponseDto;
+import com.procurement.point.model.dto.offset.OffsetDto;
+import com.procurement.point.model.dto.record.RecordPackageDto;
+import com.procurement.point.model.dto.release.ReleasePackageDto;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
+import java.util.Date;
 
 @Service
 public interface PublicService {
 
-    ResponseDto get();
+    RecordPackageDto getRecordPackage(String cpid);
+
+    ReleasePackageDto getReleasePackage(String cpid, String ocid);
+
+    OffsetDto getByOffset(LocalDateTime offset, Integer limit);
 }

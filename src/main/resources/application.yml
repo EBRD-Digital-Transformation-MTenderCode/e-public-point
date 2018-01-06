@@ -1,6 +1,6 @@
 spring:
  application:
-   name: e-point
+   name: public-point
  data:
    cassandra:
      contact-points: 127.0.0.1
@@ -8,14 +8,16 @@ spring:
      port: 9042
      username: cassandra
      password: cassandra
- servlet:
-   multipart:
-     enabled: true
-     max-file-size: 60Mb
 
-upload:
- file:
-   max-weight: 60
-   path: https://point.eprocurement.systems/get/
-   folder: /home/user/point/
-   extensions: jpg,png,gif,tif,rar,zip,7s,doc,docx,xls,xlsx,pdf,rtf,txt
+ocds:
+ path: https://point.eprocurement.systems/data/
+ version: 1.1
+ license: http://opendefinition.org/licenses/
+ publicationPolicy: http://opendefinition.org/licenses/
+ extensions:
+   https://raw.githubusercontent.com/open-contracting/ocds_bid_extension/v1.1.1/extension.json,
+   https://raw.githubusercontent.com/open-contracting/ocds_enquiry_extension$/v1.1.1/extension.json
+ publisherName: publisher-name
+ publisherScheme: publisher-scheme
+ publisherUid: publisher-uid
+ publisherUri: publisher-uri

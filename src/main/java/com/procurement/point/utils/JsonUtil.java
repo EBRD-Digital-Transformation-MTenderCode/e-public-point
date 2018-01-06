@@ -46,6 +46,15 @@ public class JsonUtil {
         }
     }
 
+    public JsonNode toJsonNode(final String json) {
+        Objects.requireNonNull(json);
+        try {
+            return mapper.readTree(json);
+        } catch (IOException e) {
+            throw new IllegalArgumentException(e);
+        }
+    }
+
     public String getResource(final String fileName) {
         final String resource = readResource(fileName);
         try {

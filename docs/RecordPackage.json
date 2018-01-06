@@ -1,0 +1,28 @@
+{
+  "uri": "",
+  "version": "",
+  "extensions": [
+    "string"
+  ],
+  "publisher":
+  {
+    "name": "",
+    "scheme": "",
+    "uid": "",
+    "uri": ""
+  },
+  "license": "",
+  "publicationPolicy": "",
+  "publishedDate": "",
+
+
+  "packages": [
+    "string"
+  ],
+  "records": [
+    {
+      "ocid": "",
+      "compiledRelease": { "$ref": "release.json" }
+    }
+  ]
+}
