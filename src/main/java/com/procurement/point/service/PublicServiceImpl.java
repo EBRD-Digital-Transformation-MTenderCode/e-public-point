@@ -15,11 +15,14 @@ import com.procurement.point.repository.OffsetRepository;
 import com.procurement.point.repository.ReleaseRepository;
 import com.procurement.point.utils.DateUtil;
 import com.procurement.point.utils.JsonUtil;
-import org.springframework.stereotype.Service;
-
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
+import org.springframework.stereotype.Service;
 
 @Service
 public class PublicServiceImpl implements PublicService {
@@ -47,8 +50,15 @@ public class PublicServiceImpl implements PublicService {
     }
 
     @Override
-    public RecordPackageDto getRecordPackage(final String cpid) {
-        Optional<List<ReleaseEntity>> entities = releaseRepository.getAllByCpId(cpid);
+    public RecordPackageDto getRecordPackage(final String cpid, final LocalDateTime offset) {
+
+        Optional<List<ReleaseEntity>> entities;
+        if (offset != null) {
+            Date date = dateUtil.localDateTimeToDate(offset);
+            entities = releaseRepository.getAllByCpIdAndOffset(cpid, date);
+        } else {
+            entities = releaseRepository.getAllByCpId(cpid);
+        }
         if (entities.isPresent()) {
             return getRecordPackageDto(entities.get(), cpid);
         } else {
@@ -57,8 +67,15 @@ public class PublicServiceImpl implements PublicService {
     }
 
     @Override
-    public ReleasePackageDto getReleasePackage(String cpid, String ocid) {
-        Optional<List<ReleaseEntity>> entities = releaseRepository.getAllByCpIdAndOcId(cpid, ocid);
+    public ReleasePackageDto getReleasePackage(String cpid, String ocid, LocalDateTime offset) {
+        Optional<List<ReleaseEntity>> entities;
+        if (offset != null) {
+            Date date = dateUtil.localDateTimeToDate(offset);
+            entities = releaseRepository.getAllByCpIdAndOcIdAndOffset(cpid, ocid, date);
+        } else {
+            entities = releaseRepository.getAllByCpIdAndOcId(cpid, ocid);
+        }
+
         if (entities.isPresent()) {
             List<ReleaseEntity> releaseEntities = entities.get();
             if (!releaseEntities.isEmpty()) {
@@ -73,7 +90,8 @@ public class PublicServiceImpl implements PublicService {
 
     @Override
     public OffsetDto getByOffset(LocalDateTime offset, Integer limit) {
-        Optional<List<OffsetEntity>> entities = offsetRepository.getAllByOffset(dateUtil.localDateTimeToDate(offset), limit);
+        Optional<List<OffsetEntity>> entities = offsetRepository.getAllByOffset(dateUtil.localDateTimeToDate(offset),
+                                                                                limit);
         if (entities.isPresent()) {
             List<OffsetEntity> offsetEntities = entities.get();
             if (!offsetEntities.isEmpty()) {
@@ -89,56 +107,59 @@ public class PublicServiceImpl implements PublicService {
     private RecordPackageDto getRecordPackageDto(final List<ReleaseEntity> entities, final String cpid) {
 
         final LocalDateTime publishedDate = entities.stream()
-                .max(Comparator.comparing(ReleaseEntity::getReleaseDate))
-                .get()
-                .getReleaseDate();
+                                                    .max(Comparator.comparing(ReleaseEntity::getReleaseDate))
+                                                    .get()
+                                                    .getReleaseDate();
         final List<RecordDto> records = entities.stream()
-                .map(e -> new RecordDto(e.getOcId(), jsonUtil.toJsonNode(e.getJsonData())))
-                .collect(Collectors.toList());
+                                                .map(e -> new RecordDto(e.getOcId(), jsonUtil.toJsonNode(e.getJsonData())))
+                                                .collect(Collectors.toList());
         final List<String> recordUrls = records.stream()
-                .map(r -> ocds.getPath() + r.getOcid())
-                .collect(Collectors.toList());
+                                               .map(r -> ocds.getPath() + r.getOcid())
+                                               .collect(Collectors.toList());
         return new RecordPackageDto(
-                ocds.getPath() + cpid,
-                ocds.getVersion(),
-                Arrays.asList(ocds.getExtensions()),
-                new PublisherDto(ocds.getPublisherName(), ocds.getPublisherScheme(), ocds.getPublisherUid(), ocds.getPublisherUri()),
-                ocds.getLicense(),
-                ocds.getPublicationPolicy(),
-                publishedDate,
-                recordUrls,
-                records);
+            ocds.getPath() + cpid,
+            ocds.getVersion(),
+            Arrays.asList(ocds.getExtensions()),
+            new PublisherDto(ocds.getPublisherName(), ocds.getPublisherScheme(), ocds.getPublisherUid(), ocds
+                .getPublisherUri()),
+            ocds.getLicense(),
+            ocds.getPublicationPolicy(),
+            publishedDate,
+            recordUrls,
+            records);
     }
 
     private ReleasePackageDto getReleasePackageDto(final List<ReleaseEntity> entities, final String cpid) {
 
         final LocalDateTime publishedDate = entities.stream()
-                .max(Comparator.comparing(ReleaseEntity::getReleaseDate))
-                .get()
-                .getReleaseDate();
+                                                    .max(Comparator.comparing(ReleaseEntity::getReleaseDate))
+                                                    .get()
+                                                    .getReleaseDate();
         final List<JsonNode> releases = entities.stream()
-                .map(e -> jsonUtil.toJsonNode(e.getJsonData()))
-                .collect(Collectors.toList());
+                                                .map(e -> jsonUtil.toJsonNode(e.getJsonData()))
+                                                .collect(Collectors.toList());
         return new ReleasePackageDto(
-                ocds.getPath() + cpid,
-                ocds.getVersion(),
-                Arrays.asList(ocds.getExtensions()),
-                new PublisherDto(ocds.getPublisherName(), ocds.getPublisherScheme(), ocds.getPublisherUid(), ocds.getPublisherUri()),
-                ocds.getLicense(),
-                ocds.getPublicationPolicy(),
-                publishedDate,
-                releases);
+            ocds.getPath() + cpid,
+            ocds.getVersion(),
+            Arrays.asList(ocds.getExtensions()),
+            new PublisherDto(ocds.getPublisherName(), ocds.getPublisherScheme(), ocds.getPublisherUid(), ocds
+                .getPublisherUri()),
+            ocds.getLicense(),
+            ocds.getPublicationPolicy(),
+            publishedDate,
+            releases);
     }
 
     private OffsetDto getOffsetDto(final List<OffsetEntity> entities) {
 
         final Date offset = entities.stream()
-                .max(Comparator.comparing(OffsetEntity::getDate))
-                .get()
-                .getDate();
+                                    .max(Comparator.comparing(OffsetEntity::getDate))
+                                    .get()
+                                    .getDate();
         final List<CpidDto> cpids = entities.stream()
-                .map(e -> new CpidDto(e.getCpId(), dateUtil.dateToLocalDateTime(e.getDate())))
-                .collect(Collectors.toList());
+                                            .map(e -> new CpidDto(e.getCpId(), dateUtil.dateToLocalDateTime(e.getDate
+                                                ())))
+                                            .collect(Collectors.toList());
         return new OffsetDto(cpids, dateUtil.dateToLocalDateTime(offset));
     }
 }

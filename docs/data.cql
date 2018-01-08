@@ -73,6 +73,7 @@ CREATE TABLE IF NOT EXISTS ocds.notice_compiled_release (
        primary key(cp_id, oc_id)
 )WITH CLUSTERING ORDER BY (oc_id ASC);
 
+CREATE INDEX date_index_compiled_release ON notice_compiled_release (release_date);
 
 SELECT * FROM ocds.notice_compiled_release;
 

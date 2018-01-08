@@ -11,9 +11,9 @@ import java.util.Date;
 @Service
 public interface PublicService {
 
-    RecordPackageDto getRecordPackage(String cpid);
+    RecordPackageDto getRecordPackage(String cpid,LocalDateTime offset);
 
-    ReleasePackageDto getReleasePackage(String cpid, String ocid);
+    ReleasePackageDto getReleasePackage(String cpid, String ocid,LocalDateTime offset);
 
     OffsetDto getByOffset(LocalDateTime offset, Integer limit);
 }
