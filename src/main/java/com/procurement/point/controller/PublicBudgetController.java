@@ -3,6 +3,7 @@ package com.procurement.point.controller;
 import com.procurement.point.model.dto.offset.OffsetDto;
 import com.procurement.point.model.dto.record.RecordPackageDto;
 import com.procurement.point.model.dto.release.ReleasePackageDto;
+import com.procurement.point.service.PublicBudgetService;
 import com.procurement.point.service.PublicTenderService;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
@@ -15,9 +16,9 @@ import java.time.LocalDateTime;
 @RequestMapping(value = "/budget")
 public class PublicBudgetController {
 
-    private final PublicTenderService publicService;
+    private final PublicBudgetService publicService;
 
-    public PublicBudgetController(final PublicTenderService publicService) {
+    public PublicBudgetController(final PublicBudgetService publicService) {
         this.publicService = publicService;
     }
 

@@ -11,7 +11,9 @@ import com.procurement.point.model.dto.record.RecordPackageDto;
 import com.procurement.point.model.dto.release.ReleasePackageDto;
 import com.procurement.point.model.entity.OffsetEntity;
 import com.procurement.point.model.entity.ReleaseEntity;
+import com.procurement.point.repository.OffsetBudgetRepository;
 import com.procurement.point.repository.OffsetTenderRepository;
+import com.procurement.point.repository.ReleaseBudgetRepository;
 import com.procurement.point.repository.ReleaseTenderRepository;
 import com.procurement.point.utils.DateUtil;
 import com.procurement.point.utils.JsonUtil;
@@ -24,9 +26,9 @@ import java.util.stream.Collectors;
 @Service
 public class PublicBudgetServiceImpl implements PublicTenderService {
 
-    private final ReleaseTenderRepository releaseTenderRepository;
+    private final ReleaseBudgetRepository releaseBudgetRepository;
 
-    private final OffsetTenderRepository offsetTenderRepository;
+    private final OffsetBudgetRepository offsetBudgetRepository;
 
     private final DateUtil dateUtil;
 
@@ -34,13 +36,13 @@ public class PublicBudgetServiceImpl implements PublicTenderService {
 
     private final OCDSProperties ocds;
 
-    public PublicBudgetServiceImpl(final ReleaseTenderRepository releaseTenderRepository,
-                                   final OffsetTenderRepository offsetTenderRepository,
+    public PublicBudgetServiceImpl(final ReleaseBudgetRepository releaseBudgetRepository,
+                                   final OffsetBudgetRepository offsetBudgetRepository,
                                    final DateUtil dateUtil,
                                    final JsonUtil jsonUtil,
                                    final OCDSProperties ocds) {
-        this.releaseTenderRepository = releaseTenderRepository;
-        this.offsetTenderRepository = offsetTenderRepository;
+        this.releaseBudgetRepository = releaseBudgetRepository;
+        this.offsetBudgetRepository = offsetBudgetRepository;
         this.dateUtil = dateUtil;
         this.jsonUtil = jsonUtil;
         this.ocds = ocds;
@@ -52,9 +54,9 @@ public class PublicBudgetServiceImpl implements PublicTenderService {
         Optional<List<ReleaseEntity>> entities;
         if (offset != null) {
             Date date = dateUtil.localDateTimeToDate(offset);
-            entities = releaseTenderRepository.getAllByCpIdAndOffset(cpid, date);
+            entities = releaseBudgetRepository.getAllByCpIdAndOffset(cpid, date);
         } else {
-            entities = releaseTenderRepository.getAllByCpId(cpid);
+            entities = releaseBudgetRepository.getAllByCpId(cpid);
         }
         if (entities.isPresent()) {
             return getRecordPackageDto(entities.get(), cpid);
@@ -68,9 +70,9 @@ public class PublicBudgetServiceImpl implements PublicTenderService {
         Optional<List<ReleaseEntity>> entities;
         if (offset != null) {
             Date date = dateUtil.localDateTimeToDate(offset);
-            entities = releaseTenderRepository.getAllByCpIdAndOcIdAndOffset(cpid, ocid, date);
+            entities = releaseBudgetRepository.getAllByCpIdAndOcIdAndOffset(cpid, ocid, date);
         } else {
-            entities = releaseTenderRepository.getAllByCpIdAndOcId(cpid, ocid);
+            entities = releaseBudgetRepository.getAllByCpIdAndOcId(cpid, ocid);
         }
 
         if (entities.isPresent()) {
@@ -87,7 +89,7 @@ public class PublicBudgetServiceImpl implements PublicTenderService {
 
     @Override
     public OffsetDto getByOffset(LocalDateTime offset, Integer limit) {
-        Optional<List<OffsetEntity>> entities = offsetTenderRepository.getAllByOffset(dateUtil.localDateTimeToDate(offset),
+        Optional<List<OffsetEntity>> entities = offsetBudgetRepository.getAllByOffset(dateUtil.localDateTimeToDate(offset),
                                                                                 limit);
         if (entities.isPresent()) {
             List<OffsetEntity> offsetEntities = entities.get();
