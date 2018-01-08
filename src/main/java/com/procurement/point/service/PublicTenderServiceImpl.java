@@ -11,8 +11,8 @@ import com.procurement.point.model.dto.record.RecordPackageDto;
 import com.procurement.point.model.dto.release.ReleasePackageDto;
 import com.procurement.point.model.entity.OffsetEntity;
 import com.procurement.point.model.entity.ReleaseEntity;
-import com.procurement.point.repository.OffsetRepository;
-import com.procurement.point.repository.ReleaseRepository;
+import com.procurement.point.repository.OffsetTenderRepository;
+import com.procurement.point.repository.ReleaseTenderRepository;
 import com.procurement.point.utils.DateUtil;
 import com.procurement.point.utils.JsonUtil;
 import java.time.LocalDateTime;
@@ -25,11 +25,11 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 
 @Service
-public class PublicServiceImpl implements PublicService {
+public class PublicTenderServiceImpl implements PublicTenderService {
 
-    private final ReleaseRepository releaseRepository;
+    private final ReleaseTenderRepository releaseTenderRepository;
 
-    private final OffsetRepository offsetRepository;
+    private final OffsetTenderRepository offsetTenderRepository;
 
     private final DateUtil dateUtil;
 
@@ -37,13 +37,13 @@ public class PublicServiceImpl implements PublicService {
 
     private final OCDSProperties ocds;
 
-    public PublicServiceImpl(final ReleaseRepository releaseRepository,
-                             final OffsetRepository offsetRepository,
-                             final DateUtil dateUtil,
-                             final JsonUtil jsonUtil,
-                             final OCDSProperties ocds) {
-        this.releaseRepository = releaseRepository;
-        this.offsetRepository = offsetRepository;
+    public PublicTenderServiceImpl(final ReleaseTenderRepository releaseTenderRepository,
+                                   final OffsetTenderRepository offsetTenderRepository,
+                                   final DateUtil dateUtil,
+                                   final JsonUtil jsonUtil,
+                                   final OCDSProperties ocds) {
+        this.releaseTenderRepository = releaseTenderRepository;
+        this.offsetTenderRepository = offsetTenderRepository;
         this.dateUtil = dateUtil;
         this.jsonUtil = jsonUtil;
         this.ocds = ocds;
@@ -55,9 +55,9 @@ public class PublicServiceImpl implements PublicService {
         Optional<List<ReleaseEntity>> entities;
         if (offset != null) {
             Date date = dateUtil.localDateTimeToDate(offset);
-            entities = releaseRepository.getAllByCpIdAndOffset(cpid, date);
+            entities = releaseTenderRepository.getAllByCpIdAndOffset(cpid, date);
         } else {
-            entities = releaseRepository.getAllByCpId(cpid);
+            entities = releaseTenderRepository.getAllByCpId(cpid);
         }
         if (entities.isPresent()) {
             return getRecordPackageDto(entities.get(), cpid);
@@ -71,9 +71,9 @@ public class PublicServiceImpl implements PublicService {
         Optional<List<ReleaseEntity>> entities;
         if (offset != null) {
             Date date = dateUtil.localDateTimeToDate(offset);
-            entities = releaseRepository.getAllByCpIdAndOcIdAndOffset(cpid, ocid, date);
+            entities = releaseTenderRepository.getAllByCpIdAndOcIdAndOffset(cpid, ocid, date);
         } else {
-            entities = releaseRepository.getAllByCpIdAndOcId(cpid, ocid);
+            entities = releaseTenderRepository.getAllByCpIdAndOcId(cpid, ocid);
         }
 
         if (entities.isPresent()) {
@@ -90,7 +90,7 @@ public class PublicServiceImpl implements PublicService {
 
     @Override
     public OffsetDto getByOffset(LocalDateTime offset, Integer limit) {
-        Optional<List<OffsetEntity>> entities = offsetRepository.getAllByOffset(dateUtil.localDateTimeToDate(offset),
+        Optional<List<OffsetEntity>> entities = offsetTenderRepository.getAllByOffset(dateUtil.localDateTimeToDate(offset),
                                                                                 limit);
         if (entities.isPresent()) {
             List<OffsetEntity> offsetEntities = entities.get();
