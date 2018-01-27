@@ -50,7 +50,6 @@ public class PublicBudgetServiceImpl implements PublicTenderService {
 
     @Override
     public RecordPackageDto getRecordPackage(final String cpid, final LocalDateTime offset) {
-
         Optional<List<ReleaseEntity>> entities;
         if (offset != null) {
             Date date = dateUtil.localDateTimeToDate(offset);
@@ -61,45 +60,44 @@ public class PublicBudgetServiceImpl implements PublicTenderService {
         if (entities.isPresent()) {
             return getRecordPackageDto(entities.get(), cpid);
         } else {
-            throw new GetDataException("Nothing found on request.");
+            throw new GetDataException("No records found.");
         }
     }
 
     @Override
     public ReleasePackageDto getReleasePackage(String cpid, String ocid, LocalDateTime offset) {
-        Optional<List<ReleaseEntity>> entities;
+        Optional<List<ReleaseEntity>> releaseOptional;
         if (offset != null) {
             Date date = dateUtil.localDateTimeToDate(offset);
-            entities = releaseBudgetRepository.getAllByCpIdAndOcIdAndOffset(cpid, ocid, date);
+            releaseOptional = releaseBudgetRepository.getAllByCpIdAndOcIdAndOffset(cpid, ocid, date);
         } else {
-            entities = releaseBudgetRepository.getAllByCpIdAndOcId(cpid, ocid);
+            releaseOptional = releaseBudgetRepository.getAllByCpIdAndOcId(cpid, ocid);
         }
-
-        if (entities.isPresent()) {
-            List<ReleaseEntity> releaseEntities = entities.get();
+        if (releaseOptional.isPresent()) {
+            List<ReleaseEntity> releaseEntities = releaseOptional.get();
             if (!releaseEntities.isEmpty()) {
                 return getReleasePackageDto(releaseEntities, cpid);
             } else {
-                throw new GetDataException("Nothing found on request.");
+                throw new GetDataException("No releases found.");
             }
         } else {
-            throw new GetDataException("Nothing found on request.");
+            throw new GetDataException("No releases found.");
         }
     }
 
     @Override
     public OffsetDto getByOffset(LocalDateTime offset, Integer limit) {
-        Optional<List<OffsetEntity>> entities = offsetBudgetRepository.getAllByOffset(dateUtil.localDateTimeToDate(offset),
-                                                                                limit);
-        if (entities.isPresent()) {
-            List<OffsetEntity> offsetEntities = entities.get();
+        Optional<List<OffsetEntity>> offsetOptional = offsetBudgetRepository
+                .getAllByOffset(dateUtil.localDateTimeToDate(offset), limit);
+        if (offsetOptional.isPresent()) {
+            List<OffsetEntity> offsetEntities = offsetOptional.get();
             if (!offsetEntities.isEmpty()) {
                 return getOffsetDto(offsetEntities);
             } else {
-                throw new GetDataException("Nothing found on request.");
+                throw new GetDataException("No data found.");
             }
         } else {
-            throw new GetDataException("Nothing found on request.");
+            throw new GetDataException("No data found.");
         }
     }
 
@@ -151,14 +149,13 @@ public class PublicBudgetServiceImpl implements PublicTenderService {
 
     private OffsetDto getOffsetDto(final List<OffsetEntity> entities) {
 
-        final Date offset = entities.stream()
+        final LocalDateTime offset = entities.stream()
                                     .max(Comparator.comparing(OffsetEntity::getDate))
                                     .get()
                                     .getDate();
         final List<CpidDto> cpids = entities.stream()
-                                            .map(e -> new CpidDto(e.getCpId(), dateUtil.dateToLocalDateTime(e.getDate
-                                                ())))
+                                            .map(e -> new CpidDto(e.getCpId(), e.getDate()))
                                             .collect(Collectors.toList());
-        return new OffsetDto(cpids, dateUtil.dateToLocalDateTime(offset));
+        return new OffsetDto(cpids, offset);
     }
 }

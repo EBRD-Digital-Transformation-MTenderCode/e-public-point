@@ -1,5 +1,7 @@
 package com.procurement.point.model.entity;
 
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.cassandra.core.cql.PrimaryKeyType;
@@ -19,5 +21,13 @@ public class OffsetEntity {
 
     @Column(value = "release_date")
     private Date date;
+
+    public LocalDateTime getDate() {
+        return LocalDateTime.ofInstant(date.toInstant(), ZoneOffset.UTC);
+    }
+
+    public void setDate(LocalDateTime releaseDate) {
+        this.date = Date.from(releaseDate.toInstant(ZoneOffset.UTC));
+    }
 
 }

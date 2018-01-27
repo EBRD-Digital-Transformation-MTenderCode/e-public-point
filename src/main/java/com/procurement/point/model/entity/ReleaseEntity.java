@@ -1,5 +1,8 @@
 package com.procurement.point.model.entity;
 
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
+import java.util.Date;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.cassandra.core.cql.Ordering;
@@ -7,8 +10,6 @@ import org.springframework.data.cassandra.core.cql.PrimaryKeyType;
 import org.springframework.data.cassandra.core.mapping.Column;
 import org.springframework.data.cassandra.core.mapping.PrimaryKeyColumn;
 import org.springframework.data.cassandra.core.mapping.Table;
-
-import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -22,7 +23,7 @@ public class ReleaseEntity {
     private String ocId;
 
     @PrimaryKeyColumn(name = "release_date", type = PrimaryKeyType.CLUSTERED, ordering = Ordering.DESCENDING)
-    private LocalDateTime releaseDate;
+    private Date releaseDate;
 
     @PrimaryKeyColumn(name = "release_id", type = PrimaryKeyType.CLUSTERED)
     private String releaseId;
@@ -32,4 +33,12 @@ public class ReleaseEntity {
 
     @Column(value = "json_data")
     private String jsonData;
+
+    public LocalDateTime getReleaseDate() {
+        return LocalDateTime.ofInstant(releaseDate.toInstant(), ZoneOffset.UTC);
+    }
+
+    public void setReleaseDate(LocalDateTime releaseDate) {
+        this.releaseDate = Date.from(releaseDate.toInstant(ZoneOffset.UTC));
+    }
 }
