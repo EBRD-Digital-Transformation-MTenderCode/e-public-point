@@ -37,8 +37,4 @@ public class ReleaseEntity {
     public LocalDateTime getReleaseDate() {
         return LocalDateTime.ofInstant(releaseDate.toInstant(), ZoneOffset.UTC);
     }
-
-    public void setReleaseDate(LocalDateTime releaseDate) {
-        this.releaseDate = Date.from(releaseDate.toInstant(ZoneOffset.UTC));
-    }
 }

@@ -25,9 +25,4 @@ public class OffsetEntity {
     public LocalDateTime getDate() {
         return LocalDateTime.ofInstant(date.toInstant(), ZoneOffset.UTC);
     }
-
-    public void setDate(LocalDateTime releaseDate) {
-        this.date = Date.from(releaseDate.toInstant(ZoneOffset.UTC));
-    }
-
 }

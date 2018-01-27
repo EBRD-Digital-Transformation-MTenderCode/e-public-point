@@ -24,7 +24,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
-public class PublicBudgetServiceImpl implements PublicTenderService {
+public class PublicBudgetServiceImpl implements PublicBudgetService {
 
     private final ReleaseBudgetRepository releaseBudgetRepository;
 
