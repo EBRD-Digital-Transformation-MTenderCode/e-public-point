@@ -1,10 +1,10 @@
 server:
   port: @project.service.port@
 
-spring:
-  application:
-    name: public-point
-  cloud:
-    config:
-      failFast: true
-      name: public-point
+#spring:
+#  application:
+#    name: public-point
+#  cloud:
+#    config:
+#      failFast: true
+#      name: public-point

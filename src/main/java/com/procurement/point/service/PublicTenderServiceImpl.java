@@ -47,61 +47,48 @@ public class PublicTenderServiceImpl implements PublicTenderService {
 
     @Override
     public RecordPackageDto getRecordPackage(final String cpid, final LocalDateTime offset) {
-
-        Optional<List<ReleaseEntity>> entities;
+        List<ReleaseEntity> entities;
         if (offset != null) {
             Date date = dateUtil.localDateTimeToDate(offset);
             entities = releaseTenderRepository.getAllByCpIdAndOffset(cpid, date);
         } else {
             entities = releaseTenderRepository.getAllByCpId(cpid);
         }
-        if (entities.isPresent()) {
-            return getRecordPackageDto(entities.get(), cpid);
+        if (!entities.isEmpty()) {
+            return getRecordPackageDto(entities, cpid);
         } else {
-            throw new GetDataException("Nothing found on request.");
+            throw new GetDataException("No records found.");
         }
     }
 
     @Override
     public ReleasePackageDto getReleasePackage(String cpid, String ocid, LocalDateTime offset) {
-        Optional<List<ReleaseEntity>> entities;
+        List<ReleaseEntity> entities;
         if (offset != null) {
             Date date = dateUtil.localDateTimeToDate(offset);
             entities = releaseTenderRepository.getAllByCpIdAndOcIdAndOffset(cpid, ocid, date);
         } else {
             entities = releaseTenderRepository.getAllByCpIdAndOcId(cpid, ocid);
         }
-
-        if (entities.isPresent()) {
-            List<ReleaseEntity> releaseEntities = entities.get();
-            if (!releaseEntities.isEmpty()) {
-                return getReleasePackageDto(releaseEntities, cpid);
-            } else {
-                throw new GetDataException("Nothing found on request.");
-            }
+        if (!entities.isEmpty()) {
+            return getReleasePackageDto(entities, cpid);
         } else {
-            throw new GetDataException("Nothing found on request.");
+            throw new GetDataException("No releases found.");
         }
     }
 
     @Override
     public OffsetDto getByOffset(LocalDateTime offset, Integer limit) {
-        Optional<List<OffsetEntity>> entities = offsetTenderRepository.getAllByOffset(dateUtil.localDateTimeToDate(offset),
+        List<OffsetEntity> entities = offsetTenderRepository.getAllByOffset(dateUtil.localDateTimeToDate(offset),
                 limit);
-        if (entities.isPresent()) {
-            List<OffsetEntity> offsetEntities = entities.get();
-            if (!offsetEntities.isEmpty()) {
-                return getOffsetDto(offsetEntities);
-            } else {
-                throw new GetDataException("Nothing found on request.");
-            }
+        if (!entities.isEmpty()) {
+            return getOffsetDto(entities);
         } else {
-            throw new GetDataException("Nothing found on request.");
+            throw new GetDataException("No data found.");
         }
     }
 
     private RecordPackageDto getRecordPackageDto(final List<ReleaseEntity> entities, final String cpid) {
-
         final LocalDateTime publishedDate = entities.stream()
                 .max(Comparator.comparing(ReleaseEntity::getReleaseDate))
                 .get()
@@ -126,7 +113,6 @@ public class PublicTenderServiceImpl implements PublicTenderService {
     }
 
     private ReleasePackageDto getReleasePackageDto(final List<ReleaseEntity> entities, final String cpid) {
-
         final LocalDateTime publishedDate = entities.stream()
                 .max(Comparator.comparing(ReleaseEntity::getReleaseDate))
                 .get()
@@ -147,7 +133,6 @@ public class PublicTenderServiceImpl implements PublicTenderService {
     }
 
     private OffsetDto getOffsetDto(final List<OffsetEntity> entities) {
-
         final LocalDateTime offset = entities.stream()
                 .max(Comparator.comparing(OffsetEntity::getDate))
                 .get()
