@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 
+@CrossOrigin(maxAge = 3600)
 @RestController
 @RequestMapping(value = "/budget")
 public class PublicBudgetController {
