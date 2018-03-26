@@ -12,6 +12,10 @@ spring:
      username: caclient
      password: brT4Kn27RQs
 
+eureka:
+  client:
+    enabled: false
+
 ocds:
  path: https://point.eprocurement.systems/
  version: 1.1
