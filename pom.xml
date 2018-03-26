@@ -49,6 +49,18 @@
 
     <profiles>
         <profile>
+            <id>deploy</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <dependencies>
+                <dependency>
+                    <groupId>org.springframework.cloud</groupId>
+                    <artifactId>spring-cloud-starter-config</artifactId>
+                </dependency>
+            </dependencies>
+        </profile>
+        <profile>
             <id>checkstyle</id>
             <build>
                 <plugins>
@@ -85,19 +97,15 @@
     </profiles>
 
     <dependencies>
+        <!--Spring Cloud-->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+        </dependency>
         <!--Web-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
-        <!--Spring Cloud-->
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-config</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
         </dependency>
         <!--DB-->
         <dependency>
