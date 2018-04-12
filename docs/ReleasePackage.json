@@ -4,8 +4,7 @@
   "extensions": [
     "string"
   ],
-  "publisher":
-  {
+  "publisher": {
     "name": "",
     "scheme": "",
     "uid": "",
@@ -14,9 +13,9 @@
   "license": "",
   "publicationPolicy": "",
   "publishedDate": "",
-
-
   "releases": [
-    { "$ref": "release.json" }
+    {
+      "$ref": "release.json"
+    }
   ]
 }
