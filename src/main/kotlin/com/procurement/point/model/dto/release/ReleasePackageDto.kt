@@ -19,7 +19,7 @@ data class ReleasePackageDto(
         val extensions: List<String>?,
 
         @JsonProperty("publisher")
-        val publisher: PublisherDto?,
+        val publisher: PublisherDto,
 
         @JsonProperty("license")
         val license: String?,

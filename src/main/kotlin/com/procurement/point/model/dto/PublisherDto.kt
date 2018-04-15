@@ -5,14 +5,14 @@ import com.fasterxml.jackson.annotation.JsonProperty
 data class PublisherDto(
 
         @JsonProperty("name")
-        private val name: String?,
+        val name: String?,
 
         @JsonProperty("scheme")
-        private val scheme: String?,
+        val scheme: String?,
 
         @JsonProperty("uid")
-        private val uid: String?,
+        val uid: String?,
 
         @JsonProperty("uri")
-        private val uri: String?
+        val uri: String?
 )

@@ -1,6 +1,6 @@
 package com.procurement.point.service
 
-import com.procurement.point.config.properties.OCDSProperties
+import com.procurement.point.config.OCDSProperties
 import com.procurement.point.exception.GetDataException
 import com.procurement.point.model.dto.PublisherDto
 import com.procurement.point.model.dto.offset.CpidDto
@@ -15,6 +15,7 @@ import com.procurement.point.repository.ReleaseTenderRepository
 import com.procurement.point.utils.toDate
 import com.procurement.point.utils.toJsonNode
 import com.procurement.point.utils.toLocal
+import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.stereotype.Service
 import java.time.LocalDateTime
 
@@ -28,6 +29,7 @@ interface PublicTenderService {
 }
 
 @Service
+@EnableConfigurationProperties(OCDSProperties::class)
 class PublicTenderServiceImpl(
         private val releaseTenderRepository: ReleaseTenderRepository,
         private val offsetTenderRepository: OffsetTenderRepository,

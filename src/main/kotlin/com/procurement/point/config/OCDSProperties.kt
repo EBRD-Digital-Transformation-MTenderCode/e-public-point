@@ -1,9 +1,8 @@
-package com.procurement.point.config.properties
+package com.procurement.point.config
 
 import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.stereotype.Component
 
-@Component
 @ConfigurationProperties(prefix = "ocds")
 data class OCDSProperties(
 

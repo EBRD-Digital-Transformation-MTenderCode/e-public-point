@@ -8,31 +8,31 @@ import java.time.LocalDateTime
 
 data class RecordPackageDto(
 
-        @param:JsonProperty("uri")
+        @JsonProperty("uri")
         val uri: String?,
 
-        @param:JsonProperty("version")
+        @JsonProperty("version")
         val version: String?,
 
-        @param:JsonProperty("extensions")
+        @JsonProperty("extensions")
         val extensions: List<String>?,
 
-        @param:JsonProperty("publisher")
+        @JsonProperty("publisher")
         val publisher: PublisherDto?,
 
-        @param:JsonProperty("license")
+        @JsonProperty("license")
         val license: String?,
 
-        @param:JsonProperty("publicationPolicy")
+        @JsonProperty("publicationPolicy")
         val publicationPolicy: String?,
 
-        @param:JsonProperty("publishedDate")
-        @field:JsonSerialize(using = JsonDateSerializer::class)
+        @JsonProperty("publishedDate")
+        @JsonSerialize(using = JsonDateSerializer::class)
         val publishedDate: LocalDateTime?,
 
-        @param:JsonProperty("packages")
+        @JsonProperty("packages")
         val packages: List<String>?,
 
-        @param:JsonProperty("records")
+        @JsonProperty("records")
         val records: List<RecordDto>?
 )
