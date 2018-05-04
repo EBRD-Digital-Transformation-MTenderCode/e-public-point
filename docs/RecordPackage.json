@@ -1,27 +1,250 @@
 {
-  "uri": "",
-  "version": "",
-  "extensions": [
-    "string"
+  "ocid": "ocds-t1s2t3-TEST-1525257180959",
+  "id": "ocds-t1s2t3-TEST-1525257180959-1525262151985",
+  "date": "2018-05-02T11:55:26Z",
+  "tag": [
+    "compiled"
   ],
-  "publisher": {
-    "name": "",
-    "scheme": "",
-    "uid": "",
-    "uri": ""
+  "initiationType": "tender",
+  "language": "en",
+  "planning": {
+    "rationale": "Process reality push.",
+    "budget": {
+      "description": "Teach between science north along next. But true space meeting contain to. Ten expect call pay television voice avoid.",
+      "amount": {
+        "amount": 6.78,
+        "currency": "UGX"
+      },
+      "isEuropeanUnionFunded": true,
+      "europeanUnionFunding": {
+        "projectIdentifier": "0-18-487845-4",
+        "projectName": "streamline rich markets",
+        "uri": "https://www.carney-ellis.com/author.html"
+      },
+      "budgetBreakdown": [
+        {
+          "id": "ocds-t1s2t3-TEST-1525257173643-FS-1525257177827",
+          "description": "Bar voice for least so including under. Series before letter market training. Forward under strategy experience amount art enjoy.",
+          "amount": {
+            "amount": 6.78,
+            "currency": "UGX"
+          },
+          "period": {
+            "startDate": "2018-05-02T10:32:52Z",
+            "endDate": "2018-07-12T04:05:41Z"
+          },
+          "sourceParty": {
+            "name": "Lewis, Jones and Wang",
+            "id": "UA-EDR-366-77-9106"
+          }
+        }
+      ]
+    }
   },
-  "license": "",
-  "publicationPolicy": "",
-  "publishedDate": "",
-  "packages": [
-    "string"
-  ],
-  "records": [
+  "tender": {
+    "id": "ocds-t1s2t3-TEST-1525257180959",
+    "title": "Ever face former off.",
+    "description": "Wide modern foreign learn.",
+    "classification": {
+      "scheme": "CPV",
+      "id": "34327000-5",
+      "description": "Steering wheels, columns and boxes"
+    },
+    "status": "active",
+    "statusDetails": "evaluated",
+    "value": {
+      "amount": 777.25,
+      "currency": "UGX"
+    },
+    "procurementMethod": "selective",
+    "procurementMethodDetails": "Price blood scene others bank hundred friend.",
+    "procurementMethodRationale": "Service ahead imagine indicate assume tell. Many above believe training movement.",
+    "procurementMethodAdditionalInfo": "Could realize open matter walk magazine care. Picture culture analysis under expert throw. Arm skin assume style budget type father however.",
+    "mainProcurementCategory": "services",
+    "additionalProcurementCategories": [
+      "works"
+    ],
+    "hasEnquiries": false,
+    "eligibilityCriteria": "Understand give writer environmental its believe add cover.",
+    "submissionLanguages": [
+      "fr"
+    ],
+    "contractPeriod": {
+      "startDate": "2018-05-02T10:33:00Z",
+      "endDate": "2018-08-29T20:57:40Z"
+    },
+    "acceleratedProcedure": {
+      "isAcceleratedProcedure": false
+    },
+    "designContest": {
+      "serviceContractAward": false
+    },
+    "electronicWorkflows": {
+      "useOrdering": false,
+      "usePayment": false,
+      "acceptInvoicing": false
+    },
+    "jointProcurement": {
+      "isJointProcurement": false
+    },
+    "procedureOutsourcing": {
+      "procedureOutsourced": false
+    },
+    "framework": {
+      "isAFramework": false
+    },
+    "dynamicPurchasingSystem": {
+      "hasDynamicPurchasingSystem": false
+    },
+    "legalBasis": "DIRECTIVE_2014_24_EU",
+    "procuringEntity": {
+      "name": "Schroeder, Cox and Hernandez",
+      "id": "UA-EDR-477-46-7160"
+    }
+  },
+  "parties": [
     {
-      "ocid": "",
-      "compiledRelease": {
-        "$ref": "release.json"
-      }
+      "name": "Schroeder, Cox and Hernandez",
+      "id": "UA-EDR-477-46-7160",
+      "identifier": {
+        "scheme": "UA-EDR",
+        "id": "477-46-7160",
+        "legalName": "Schroeder, Cox and Hernandez LLC",
+        "uri": "http://johnson.com/privacy/"
+      },
+      "additionalIdentifiers": [
+        {
+          "scheme": "UA-EDR",
+          "id": "492-88-2776",
+          "legalName": "Schroeder, Cox and Hernandez PLC",
+          "uri": "https://white.com/tag/tags/about/"
+        }
+      ],
+      "address": {
+        "streetAddress": "4898 Bentley Green",
+        "locality": "Mariatown",
+        "region": "New Mexico",
+        "postalCode": "31219-5071",
+        "countryName": "Mayotte"
+      },
+      "contactPoint": {
+        "name": "Shirley Rodgers",
+        "email": "jamesbrenda@gmail.com",
+        "telephone": "204-603-9584x2229",
+        "faxNumber": "598.524.7306x7819",
+        "url": "https://www.wilkinson-martinez.com/"
+      },
+      "roles": [
+        "procuringEntity"
+      ]
+    },
+    {
+      "name": "Mills Group",
+      "id": "UA-EDR-153-76-1499",
+      "identifier": {
+        "scheme": "UA-EDR",
+        "id": "153-76-1499",
+        "legalName": "Mills Group LLC",
+        "uri": "http://mcdonald.net/index/"
+      },
+      "additionalIdentifiers": [
+        {
+          "scheme": "UA-EDR",
+          "id": "042-29-8811",
+          "legalName": "Mills Group PLC",
+          "uri": "https://www.robles.net/"
+        }
+      ],
+      "address": {
+        "streetAddress": "341 Richards Mountain",
+        "locality": "Ernestland",
+        "region": "Idaho",
+        "postalCode": "02952",
+        "countryName": "Australia"
+      },
+      "contactPoint": {
+        "name": "Mary Burton",
+        "email": "mbarber@yahoo.com",
+        "telephone": "431.429.1548x76205",
+        "faxNumber": "438.220.1753",
+        "url": "http://www.johnson.com/terms/"
+      },
+      "roles": [
+        "payer"
+      ]
+    },
+    {
+      "name": "Lewis, Jones and Wang",
+      "id": "UA-EDR-366-77-9106",
+      "identifier": {
+        "scheme": "UA-EDR",
+        "id": "366-77-9106",
+        "legalName": "Lewis, Jones and Wang PLC",
+        "uri": "https://www.garrett-fowler.com/category/"
+      },
+      "additionalIdentifiers": [
+        {
+          "scheme": "UA-EDR",
+          "id": "890-85-4188",
+          "legalName": "Lewis, Jones and Wang PLC",
+          "uri": "https://acevedo.biz/"
+        }
+      ],
+      "address": {
+        "streetAddress": "17095 Tucker Viaduct",
+        "locality": "Kellyton",
+        "region": "Kansas",
+        "postalCode": "98020",
+        "countryName": "South Georgia and the South Sandwich Islands"
+      },
+      "contactPoint": {
+        "name": "Allen Ortega",
+        "email": "iharris@yahoo.com",
+        "telephone": "(340)831-1098x49570",
+        "faxNumber": "131-213-9135x712",
+        "url": "https://www.perez-gaines.org/main/category/faq/"
+      },
+      "roles": [
+        "funder",
+        "buyer"
+      ],
+      "details": {
+        "typeOfBuyer": "REGIONAL_AUTHORITY",
+        "mainGeneralActivity": "DEFENCE",
+        "mainSectoralActivity": "WATER",
+        "isACentralPurchasingBody": true,
+        "scale": "sme"
+      },
+      "buyerProfile": "https://www.johnson.com/home.html"
+    }
+  ],
+  "relatedProcesses": [
+    {
+      "id": "304a6121-4df4-11e8-9b66-f77ed5d61c3c",
+      "relationship": [
+        "x_expenditureItem"
+      ],
+      "scheme": "ocid",
+      "identifier": "ocds-t1s2t3-TEST-1525257173643",
+      "uri": "http://point.eprocurement.systems/budget/ocds-t1s2t3-TEST-1525257173643/ocds-t1s2t3-TEST-1525257173643"
+    },
+    {
+      "id": "304a6122-4df4-11e8-9b66-f77ed5d61c3c",
+      "relationship": [
+        "x_budget"
+      ],
+      "scheme": "ocid",
+      "identifier": "ocds-t1s2t3-TEST-1525257173643-FS-1525257177827",
+      "uri": "http://point.eprocurement.systems/budget/ocds-t1s2t3-TEST-1525257173643/ocds-t1s2t3-TEST-1525257173643-FS-1525257177827"
+    },
+    {
+      "id": "304a6120-4df4-11e8-9b66-f77ed5d61c3c",
+      "relationship": [
+        "x_evaluation"
+      ],
+      "scheme": "ocid",
+      "identifier": "ocds-t1s2t3-TEST-1525257180959-EV-1525257181234",
+      "uri": "http://point.eprocurement.systems/tender/ocds-t1s2t3-TEST-1525257180959/ocds-t1s2t3-TEST-1525257180959-EV-1525257181234"
     }
   ]
 }
