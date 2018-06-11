@@ -71,7 +71,7 @@ class PublicTenderServiceImpl(
                 .map { RecordDto(it.ocId, it.jsonData.toJsonNode()) }.toList()
         val recordUrls = records.map { ocds.path + "tender/" + it.ocid }
         return RecordPackageDto(
-                uri = ocds.path + cpid,
+                uri = ocds.path + "tender/" + cpid,
                 version = ocds.version,
                 extensions = ocds.extensions?.toList(),
                 publisher = PublisherDto(
@@ -91,7 +91,7 @@ class PublicTenderServiceImpl(
         val releases = entities.asSequence().sortedByDescending { it.releaseDate }
                 .map { it.jsonData.toJsonNode() }.toList()
         return ReleasePackageDto(
-                uri = ocds.path + cpid,
+                uri = ocds.path + "tender/" + cpid,
                 version = ocds.version,
                 extensions = ocds.extensions?.toList(),
                 publisher = PublisherDto(
