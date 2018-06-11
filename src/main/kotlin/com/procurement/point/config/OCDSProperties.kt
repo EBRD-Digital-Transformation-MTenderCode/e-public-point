@@ -22,5 +22,7 @@ data class OCDSProperties(
 
         var publisherUid: String?,
 
-        var publisherUri: String?
+        var publisherUri: String?,
+
+        var limit: Int?
 )

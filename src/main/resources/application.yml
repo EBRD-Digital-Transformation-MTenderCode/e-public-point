@@ -27,3 +27,4 @@ ocds:
  publisherScheme: publisher-scheme
  publisherUid: publisher-uid
  publisherUri: publisher-uri
+ limit: 300

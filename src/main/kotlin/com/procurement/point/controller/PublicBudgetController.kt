@@ -37,8 +37,8 @@ class PublicBudgetController(private val publicService: PublicBudgetService) {
     fun getByOffset(@RequestParam(value = "offset")
                     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
                     offset: LocalDateTime,
-                    @RequestParam(value = "limit") limit: Int): ResponseEntity<OffsetDto> {
-        return ResponseEntity(publicService.getByOffset(offset, limit), HttpStatus.OK)
+                    @RequestParam(value = "limit", required = false) limitParam: Int?): ResponseEntity<OffsetDto> {
+        return ResponseEntity(publicService.getByOffset(offset, limitParam), HttpStatus.OK)
     }
 }
 

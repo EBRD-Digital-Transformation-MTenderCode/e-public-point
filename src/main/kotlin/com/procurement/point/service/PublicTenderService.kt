@@ -25,7 +25,7 @@ interface PublicTenderService {
 
     fun getReleasePackage(cpid: String, ocid: String, offset: LocalDateTime?): ReleasePackageDto
 
-    fun getByOffset(offset: LocalDateTime, limit: Int): OffsetDto
+    fun getByOffset(offset: LocalDateTime, limitParam: Int?): OffsetDto
 }
 
 @Service
@@ -57,7 +57,11 @@ class PublicTenderServiceImpl(
         }
     }
 
-    override fun getByOffset(offset: LocalDateTime, limit: Int): OffsetDto {
+    override fun getByOffset(offset: LocalDateTime, limitParam: Int?): OffsetDto {
+        val limit = when (limitParam) {
+            null -> ocds.limit ?: 300
+            else -> limitParam
+        }
         val entities = offsetTenderRepository.getAllByOffset(offset.toDate(), limit)
         return when (!entities.isEmpty()) {
             true -> getOffsetDto(entities)
