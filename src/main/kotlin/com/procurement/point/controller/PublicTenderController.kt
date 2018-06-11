@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*
 import java.time.LocalDateTime
 
 @RestController
-//@CrossOrigin(maxAge = 3600)
+@CrossOrigin(maxAge = 3600)
 @RequestMapping("/tender")
 class PublicTenderController(private val publicService: PublicTenderService) {
 
