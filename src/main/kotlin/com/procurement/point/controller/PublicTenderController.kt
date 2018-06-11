@@ -12,10 +12,10 @@ import java.time.LocalDateTime
 
 @RestController
 @CrossOrigin(maxAge = 3600)
-@RequestMapping(value = ["/tender"])
+@RequestMapping("/tender")
 class PublicTenderController(private val publicService: PublicTenderService) {
 
-    @GetMapping(value = ["/{cpid}"])
+    @GetMapping("/{cpid}")
     fun getRecordPackage(@PathVariable(value = "cpid") cpid: String,
                          @RequestParam(value = "offset", required = false)
                          @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
@@ -23,7 +23,7 @@ class PublicTenderController(private val publicService: PublicTenderService) {
         return ResponseEntity(publicService.getRecordPackage(cpid, offset), HttpStatus.OK)
     }
 
-    @GetMapping(value = ["/{cpid}/{ocid}"])
+    @GetMapping("/{cpid}/{ocid}")
     fun getReleasePackage(@PathVariable(value = "cpid") cpid: String,
                           @PathVariable(value = "ocid") ocid: String,
                           @RequestParam(value = "offset", required = false)
