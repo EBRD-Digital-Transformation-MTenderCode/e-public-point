@@ -19,8 +19,7 @@ class PublicBudgetController(private val publicService: PublicBudgetService) {
     @GetMapping("/{cpid}")
     fun getRecordPackage(@PathVariable(value = "cpid") cpid: String,
                          @RequestParam(value = "offset", required = false)
-                         @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-                         offset: LocalDateTime?): ResponseEntity<RecordPackageDto> {
+                         @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) offset: LocalDateTime?): ResponseEntity<RecordPackageDto> {
         return ResponseEntity(publicService.getRecordPackage(cpid, offset), HttpStatus.OK)
     }
 
@@ -28,15 +27,13 @@ class PublicBudgetController(private val publicService: PublicBudgetService) {
     fun getReleasePackage(@PathVariable(value = "cpid") cpid: String,
                           @PathVariable(value = "ocid") ocid: String,
                           @RequestParam(value = "offset", required = false)
-                          @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-                          offset: LocalDateTime?): ResponseEntity<ReleasePackageDto> {
+                          @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) offset: LocalDateTime?): ResponseEntity<ReleasePackageDto> {
         return ResponseEntity(publicService.getReleasePackage(cpid, ocid, offset), HttpStatus.OK)
     }
 
     @GetMapping
     fun getByOffset(@RequestParam(value = "offset")
-                    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-                    offset: LocalDateTime,
+                    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) offset: LocalDateTime,
                     @RequestParam(value = "limit", required = false) limitParam: Int?): ResponseEntity<OffsetDto> {
         return ResponseEntity(publicService.getByOffset(offset, limitParam), HttpStatus.OK)
     }
