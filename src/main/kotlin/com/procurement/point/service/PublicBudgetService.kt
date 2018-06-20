@@ -2,6 +2,7 @@ package com.procurement.point.service
 
 import com.procurement.point.config.OCDSProperties
 import com.procurement.point.exception.GetDataException
+import com.procurement.point.exception.ParamException
 import com.procurement.point.model.dto.PublisherDto
 import com.procurement.point.model.dto.offset.CpidDto
 import com.procurement.point.model.dto.offset.OffsetDto
@@ -100,6 +101,7 @@ class PublicBudgetServiceImpl(
         return when (limitParam) {
             null -> defLimit
             else -> when {
+                limitParam < 0 ->  throw ParamException("Limit invalid.")
                 limitParam > maxLimit -> maxLimit
                 else -> limitParam
             }
