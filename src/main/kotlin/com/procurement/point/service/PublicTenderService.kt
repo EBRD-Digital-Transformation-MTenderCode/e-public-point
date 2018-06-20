@@ -41,24 +41,36 @@ class PublicTenderServiceImpl(
     private val maxLimit: Int = ocds.maxLimit ?: 300
 
     override fun getRecordPackage(cpid: String, offset: LocalDateTime?): RecordPackageDto {
-        val entities = when (offset) {
-            null -> releaseTenderRepository.getAllCompiledByCpId(cpid)
-            else -> releaseTenderRepository.getAllCompiledByCpIdAndOffset(cpid, offset.toDate())
-        }
-        return when (!entities.isEmpty()) {
-            true -> getRecordPackageDto(entities, cpid)
-            else -> getEmptyRecordPackageDto()
+        val entities: List<ReleaseEntity>
+        return if (offset == null) {
+            entities = releaseTenderRepository.getAllCompiledByCpId(cpid)
+            when (entities.isNotEmpty()) {
+                true -> getRecordPackageDto(entities, cpid)
+                else -> throw GetDataException("No releases found.")
+            }
+        } else {
+            entities = releaseTenderRepository.getAllCompiledByCpIdAndOffset(cpid, offset.toDate())
+            when (entities.isNotEmpty()) {
+                true -> getRecordPackageDto(entities, cpid)
+                else -> getEmptyRecordPackageDto()
+            }
         }
     }
 
     override fun getReleasePackage(cpid: String, ocid: String, offset: LocalDateTime?): ReleasePackageDto {
-        val entities = when (offset) {
-            null -> releaseTenderRepository.getAllReleasesByCpIdAndOcId(cpid, ocid)
-            else -> releaseTenderRepository.getAllReleasesByCpIdAndOcIdAndOffset(cpid, ocid, offset.toDate())
-        }
-        return when (!entities.isEmpty()) {
-            true -> getReleasePackageDto(entities, cpid)
-            else -> getEmptyReleasePackageDto()
+        val entities: List<ReleaseEntity>
+        return if (offset == null) {
+            entities = releaseTenderRepository.getAllReleasesByCpIdAndOcId(cpid, ocid)
+            when (entities.isNotEmpty()) {
+                true -> getReleasePackageDto(entities, cpid)
+                else -> throw GetDataException("No releases found.")
+            }
+        } else {
+            entities = releaseTenderRepository.getAllReleasesByCpIdAndOcIdAndOffset(cpid, ocid, offset.toDate())
+            when (entities.isNotEmpty()) {
+                true -> getReleasePackageDto(entities, cpid)
+                else -> getEmptyReleasePackageDto()
+            }
         }
     }
 
