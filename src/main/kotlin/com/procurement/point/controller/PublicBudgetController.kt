@@ -13,7 +13,7 @@ import java.time.LocalDateTime
 
 @RestController
 @CrossOrigin(maxAge = 3600)
-@RequestMapping("/budget")
+@RequestMapping("/budgets")
 class PublicBudgetController(private val publicService: PublicBudgetService) {
 
     @GetMapping("/{cpid}")
