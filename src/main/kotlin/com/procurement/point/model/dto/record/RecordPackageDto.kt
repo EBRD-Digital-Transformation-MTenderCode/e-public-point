@@ -1,11 +1,13 @@
 package com.procurement.point.model.dto.record
 
+import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.databind.annotation.JsonSerialize
 import com.procurement.point.databinding.JsonDateSerializer
 import com.procurement.point.model.dto.PublisherDto
 import java.time.LocalDateTime
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 data class RecordPackageDto(
 
         @JsonProperty("uri")

@@ -10,16 +10,19 @@ import java.util.*
 interface ReleaseTenderRepository : CassandraRepository<ReleaseEntity, String> {
 
     @Query(value = "select * from notice_compiled_release where cp_id=?0")
-    fun getAllByCpId(cpId: String): List<ReleaseEntity>
+    fun getAllCompiledByCpId(cpId: String): List<ReleaseEntity>
 
     @Query(value = "select * from notice_compiled_release where cp_id=?0 and release_date>=?1 ALLOW FILTERING")
-    fun getAllByCpIdAndOffset(cpId: String, offset: Date): List<ReleaseEntity>
+    fun getAllCompiledByCpIdAndOffset(cpId: String, offset: Date): List<ReleaseEntity>
+
+    @Query(value = "select * from notice_compiled_release where cp_id=?0 and oc_id=?1 ALLOW FILTERING")
+    fun getCompiledByCpIdAndOcid(cpId: String, ocId: String): ReleaseEntity?
 
     @Query(value = "select * from notice_release where cp_id=?0 and oc_id=?1")
-    fun getAllByCpIdAndOcId(cpId: String, ocId: String): List<ReleaseEntity>
+    fun getAllReleasesByCpIdAndOcId(cpId: String, ocId: String): List<ReleaseEntity>
 
     @Query(value = "select * from notice_release where cp_id=?0 and oc_id=?1 and release_date>=?2 ALLOW FILTERING")
-    fun getAllByCpIdAndOcIdAndOffset(cpId: String, ocId: String, offset: Date): List<ReleaseEntity>
+    fun getAllReleasesByCpIdAndOcIdAndOffset(cpId: String, ocId: String, offset: Date): List<ReleaseEntity>
 
 
 }

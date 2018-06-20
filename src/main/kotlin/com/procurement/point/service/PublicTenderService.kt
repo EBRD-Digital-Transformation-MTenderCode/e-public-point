@@ -26,6 +26,8 @@ interface PublicTenderService {
     fun getReleasePackage(cpid: String, ocid: String, offset: LocalDateTime?): ReleasePackageDto
 
     fun getByOffset(offset: LocalDateTime, limitParam: Int?): OffsetDto
+
+    fun getRecord(cpid: String, ocid: String, offset: LocalDateTime?): ReleasePackageDto
 }
 
 @Service
@@ -35,37 +37,60 @@ class PublicTenderServiceImpl(
         private val offsetTenderRepository: OffsetTenderRepository,
         private val ocds: OCDSProperties) : PublicTenderService {
 
+    private val defLimit: Int = ocds.defLimit ?: 100
+    private val maxLimit: Int = ocds.maxLimit ?: 300
+
     override fun getRecordPackage(cpid: String, offset: LocalDateTime?): RecordPackageDto {
         val entities = when (offset) {
-            null -> releaseTenderRepository.getAllByCpId(cpid)
-            else -> releaseTenderRepository.getAllByCpIdAndOffset(cpid, offset.toDate())
+            null -> releaseTenderRepository.getAllCompiledByCpId(cpid)
+            else -> releaseTenderRepository.getAllCompiledByCpIdAndOffset(cpid, offset.toDate())
         }
-        when (!entities.isEmpty()) {
-            true -> return getRecordPackageDto(entities, cpid)
-            else -> throw GetDataException("No records found.")
+        return when (!entities.isEmpty()) {
+            true -> getRecordPackageDto(entities, cpid)
+            else -> getEmptyRecordPackageDto()
         }
     }
 
     override fun getReleasePackage(cpid: String, ocid: String, offset: LocalDateTime?): ReleasePackageDto {
         val entities = when (offset) {
-            null -> releaseTenderRepository.getAllByCpIdAndOcId(cpid, ocid)
-            else -> releaseTenderRepository.getAllByCpIdAndOcIdAndOffset(cpid, ocid, offset.toDate())
+            null -> releaseTenderRepository.getAllReleasesByCpIdAndOcId(cpid, ocid)
+            else -> releaseTenderRepository.getAllReleasesByCpIdAndOcIdAndOffset(cpid, ocid, offset.toDate())
         }
-        when (!entities.isEmpty()) {
-            true -> return getReleasePackageDto(entities, cpid)
-            else -> throw GetDataException("No releases found.")
+        return when (!entities.isEmpty()) {
+            true -> getReleasePackageDto(entities, cpid)
+            else -> getEmptyReleasePackageDto()
         }
     }
 
     override fun getByOffset(offset: LocalDateTime, limitParam: Int?): OffsetDto {
-        val limit = when (limitParam) {
-            null -> ocds.limit ?: 300
-            else -> limitParam
-        }
-        val entities = offsetTenderRepository.getAllByOffset(offset.toDate(), limit)
+        val entities = offsetTenderRepository.getAllByOffset(offset.toDate(), getLimit(limitParam))
         return when (!entities.isEmpty()) {
             true -> getOffsetDto(entities)
             else -> getEmptyOffsetDto(offset)
+        }
+    }
+
+    override fun getRecord(cpid: String, ocid: String, offset: LocalDateTime?): ReleasePackageDto {
+        val entity = releaseTenderRepository.getCompiledByCpIdAndOcid(cpid, ocid)
+                ?: throw GetDataException("No releases found.")
+        return if (offset != null) {
+            if (entity.releaseDate >= offset.toDate()) {
+                getReleasePackageDto(listOf(entity), cpid)
+            } else {
+                getEmptyReleasePackageDto()
+            }
+        } else {
+            getReleasePackageDto(listOf(entity), cpid)
+        }
+    }
+
+    private fun getLimit(limitParam: Int?): Int {
+        return when (limitParam) {
+            null -> defLimit
+            else -> when {
+                limitParam > maxLimit -> maxLimit
+                else -> limitParam
+            }
         }
     }
 
@@ -118,5 +143,30 @@ class PublicTenderServiceImpl(
 
     private fun getEmptyOffsetDto(offset: LocalDateTime): OffsetDto {
         return OffsetDto(data = ArrayList(), offset = offset)
+    }
+
+    private fun getEmptyReleasePackageDto(): ReleasePackageDto {
+        return ReleasePackageDto(
+                uri = null,
+                version = null,
+                extensions = null,
+                publisher = null,
+                license = null,
+                publicationPolicy = null,
+                publishedDate = null,
+                releases = null)
+    }
+
+    private fun getEmptyRecordPackageDto(): RecordPackageDto {
+        return RecordPackageDto(
+                uri = null,
+                version = null,
+                extensions = null,
+                publisher = null,
+                license = null,
+                publicationPolicy = null,
+                publishedDate = null,
+                packages = null,
+                records = null)
     }
 }

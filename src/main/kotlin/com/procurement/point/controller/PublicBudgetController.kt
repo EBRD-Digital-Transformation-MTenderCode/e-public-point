@@ -30,7 +30,7 @@ class PublicBudgetController(private val publicService: PublicBudgetService) {
                           @RequestParam(value = "offset", required = false)
                           @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
                           offset: LocalDateTime?): ResponseEntity<ReleasePackageDto> {
-        return ResponseEntity(publicService.getReleasePackage(cpid, ocid, offset), HttpStatus.OK)
+        return ResponseEntity(publicService.getRecord(cpid, ocid, offset), HttpStatus.OK)
     }
 
     @GetMapping
