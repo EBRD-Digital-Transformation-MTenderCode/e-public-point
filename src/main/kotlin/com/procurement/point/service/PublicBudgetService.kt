@@ -13,6 +13,7 @@ import com.procurement.point.model.entity.OffsetEntity
 import com.procurement.point.model.entity.ReleaseEntity
 import com.procurement.point.repository.OffsetBudgetRepository
 import com.procurement.point.repository.ReleaseBudgetRepository
+import com.procurement.point.utils.epoch
 import com.procurement.point.utils.toDate
 import com.procurement.point.utils.toJsonNode
 import com.procurement.point.utils.toLocal
@@ -26,7 +27,7 @@ interface PublicBudgetService {
 
     fun getReleasePackage(cpid: String, ocid: String, offset: LocalDateTime?): ReleasePackageDto
 
-    fun getByOffset(offset: LocalDateTime, limitParam: Int?): OffsetDto
+    fun getByOffset(offset: LocalDateTime?, limitParam: Int?): OffsetDto
 
     fun getRecord(cpid: String, ocid: String, offset: LocalDateTime?): ReleasePackageDto
 }
@@ -75,11 +76,12 @@ class PublicBudgetServiceImpl(
         }
     }
 
-    override fun getByOffset(offset: LocalDateTime, limitParam: Int?): OffsetDto {
-        val entities = offsetBudgetRepository.getAllByOffset(offset.toDate(), getLimit(limitParam))
+    override fun getByOffset(offset: LocalDateTime?, limitParam: Int?): OffsetDto {
+        val offsetParam = offset ?: epoch()
+        val entities = offsetBudgetRepository.getAllByOffset(offsetParam.toDate(), getLimit(limitParam))
         return when (!entities.isEmpty()) {
             true -> getOffsetDto(entities)
-            else -> getEmptyOffsetDto(offset)
+            else -> getEmptyOffsetDto(offsetParam)
         }
     }
 

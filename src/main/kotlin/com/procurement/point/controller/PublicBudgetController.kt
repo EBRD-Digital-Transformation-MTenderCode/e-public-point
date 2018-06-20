@@ -34,9 +34,9 @@ class PublicBudgetController(private val publicService: PublicBudgetService) {
     }
 
     @GetMapping
-    fun getByOffset(@RequestParam(value = "offset")
+    fun getByOffset(@RequestParam(value = "offset", required = false)
                     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-                    offset: LocalDateTime,
+                    offset: LocalDateTime?,
                     @RequestParam(value = "limit", required = false) limitParam: Int?): ResponseEntity<OffsetDto> {
         return ResponseEntity(publicService.getByOffset(offset, limitParam), HttpStatus.OK)
     }
