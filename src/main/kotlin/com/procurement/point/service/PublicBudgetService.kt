@@ -112,7 +112,7 @@ class PublicBudgetServiceImpl(
 
     private fun getRecordPackageDto(entities: List<ReleaseEntity>, cpid: String): RecordPackageDto {
         val publishedDate = entities.maxBy { it.releaseDate }?.releaseDate?.toLocal()
-        val records = entities.asSequence().sortedByDescending { it.releaseDate }
+        val records = entities.asSequence().sortedBy { it.releaseDate }
                 .map { RecordDto(it.ocId, it.jsonData.toJsonNode()) }.toList()
         val recordUrls = records.map { ocds.path + "budget/" + it.ocid }
         return RecordPackageDto(
@@ -133,7 +133,7 @@ class PublicBudgetServiceImpl(
 
     private fun getReleasePackageDto(entities: List<ReleaseEntity>, cpid: String): ReleasePackageDto {
         val publishedDate = entities.maxBy { it.releaseDate }?.releaseDate?.toLocal()
-        val releases = entities.asSequence().sortedByDescending { it.releaseDate }
+        val releases = entities.asSequence().sortedBy { it.releaseDate }
                 .map { it.jsonData.toJsonNode() }.toList()
         return ReleasePackageDto(
                 uri = ocds.path + "budget/" + cpid,
