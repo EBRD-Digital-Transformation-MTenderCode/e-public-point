@@ -11,4 +11,5 @@ interface OffsetBudgetRepository : CassandraRepository<OffsetEntity, String> {
 
     @Query(value = "SELECT * FROM notice_budget_offset WHERE release_date>?0 LIMIT ?1 ALLOW FILTERING")
     fun getAllByOffset(offset: Date, limit: Int): List<OffsetEntity>
+
 }
