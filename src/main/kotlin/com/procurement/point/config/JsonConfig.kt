@@ -31,6 +31,7 @@ class JsonConfig(private val mapper: ObjectMapper) {
 
     object DateFormatter {
         lateinit var formatter: DateTimeFormatter
+        lateinit var formatterMillis: DateTimeFormatter
         fun init() {
             formatter = DateTimeFormatterBuilder()
                     .parseCaseInsensitive()
@@ -42,6 +43,21 @@ class JsonConfig(private val mapper: ObjectMapper) {
                     .optionalStart()
                     .appendLiteral(':')
                     .appendValue(ChronoField.SECOND_OF_MINUTE, 2)
+                    .appendLiteral('Z')
+                    .toFormatter()
+            formatterMillis = DateTimeFormatterBuilder()
+                    .parseCaseInsensitive()
+                    .append(DateTimeFormatter.ISO_LOCAL_DATE)
+                    .appendLiteral('T')
+                    .appendValue(ChronoField.HOUR_OF_DAY, 2)
+                    .appendLiteral(':')
+                    .appendValue(ChronoField.MINUTE_OF_HOUR, 2)
+                    .optionalStart()
+                    .appendLiteral(':')
+                    .appendValue(ChronoField.SECOND_OF_MINUTE, 2)
+                    .optionalStart()
+                    .appendLiteral('.')
+                    .appendValue(ChronoField.MILLI_OF_SECOND, 3)
                     .appendLiteral('Z')
                     .toFormatter()
         }
