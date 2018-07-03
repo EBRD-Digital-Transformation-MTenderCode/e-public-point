@@ -64,13 +64,13 @@ class PublicBudgetServiceImpl(
         return if (offset == null) {
             entities = releaseBudgetRepository.getAllReleasesByCpIdAndOcId(cpid, ocid)
             when (entities.isNotEmpty()) {
-                true -> getReleasePackageDto(entities, cpid)
+                true -> getReleasePackageDto(entities, cpid, ocid)
                 else -> throw GetDataException("No releases found.")
             }
         } else {
             entities = releaseBudgetRepository.getAllReleasesByCpIdAndOcIdAndOffset(cpid, ocid, offset.toDate())
             when (entities.isNotEmpty()) {
-                true -> getReleasePackageDto(entities, cpid)
+                true -> getReleasePackageDto(entities, cpid, ocid)
                 else -> getEmptyReleasePackageDto()
             }
         }
@@ -90,12 +90,12 @@ class PublicBudgetServiceImpl(
                 ?: throw GetDataException("No releases found.")
         return if (offset != null) {
             if (entity.releaseDate >= offset.toDate()) {
-                getReleasePackageDto(listOf(entity), cpid)
+                getReleasePackageDto(listOf(entity), cpid, ocid)
             } else {
                 getEmptyReleasePackageDto()
             }
         } else {
-            getReleasePackageDto(listOf(entity), cpid)
+            getReleasePackageDto(listOf(entity), cpid, ocid)
         }
     }
 
@@ -103,7 +103,7 @@ class PublicBudgetServiceImpl(
         return when (limitParam) {
             null -> defLimit
             else -> when {
-                limitParam < 0 ->  throw ParamException("Limit invalid.")
+                limitParam < 0 -> throw ParamException("Limit invalid.")
                 limitParam > maxLimit -> maxLimit
                 else -> limitParam
             }
@@ -113,8 +113,8 @@ class PublicBudgetServiceImpl(
     private fun getRecordPackageDto(entities: List<ReleaseEntity>, cpid: String): RecordPackageDto {
         val publishedDate = entities.maxBy { it.releaseDate }?.releaseDate?.toLocal()
         val records = entities.asSequence().sortedBy { it.releaseDate }
-                .map { RecordDto(it.ocId, it.jsonData.toJsonNode()) }.toList()
-        val recordUrls = records.map { ocds.path + "budgets/" + it.ocid }
+                .map { RecordDto(it.cpId, it.ocId, it.jsonData.toJsonNode()) }.toList()
+        val recordUrls = records.map { ocds.path + "budgets/" + it.cpid + "/" + it.ocid }
         return RecordPackageDto(
                 uri = ocds.path + "budgets/" + cpid,
                 version = ocds.version,
@@ -131,12 +131,12 @@ class PublicBudgetServiceImpl(
                 records = records)
     }
 
-    private fun getReleasePackageDto(entities: List<ReleaseEntity>, cpid: String): ReleasePackageDto {
+    private fun getReleasePackageDto(entities: List<ReleaseEntity>, cpid: String, ocid: String): ReleasePackageDto {
         val publishedDate = entities.maxBy { it.releaseDate }?.releaseDate?.toLocal()
         val releases = entities.asSequence().sortedBy { it.releaseDate }
                 .map { it.jsonData.toJsonNode() }.toList()
         return ReleasePackageDto(
-                uri = ocds.path + "budgets/" + cpid,
+                uri = ocds.path + "budgets/" + cpid + "/" + ocid,
                 version = ocds.version,
                 extensions = ocds.extensions?.toList(),
                 publisher = PublisherDto(
