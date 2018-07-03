@@ -103,7 +103,7 @@ class PublicBudgetServiceImpl(
         return when (limitParam) {
             null -> defLimit
             else -> when {
-                limitParam < 0 ->  throw ParamException("Limit invalid.")
+                limitParam < 0 -> throw ParamException("Limit invalid.")
                 limitParam > maxLimit -> maxLimit
                 else -> limitParam
             }
@@ -113,8 +113,8 @@ class PublicBudgetServiceImpl(
     private fun getRecordPackageDto(entities: List<ReleaseEntity>, cpid: String): RecordPackageDto {
         val publishedDate = entities.maxBy { it.releaseDate }?.releaseDate?.toLocal()
         val records = entities.asSequence().sortedBy { it.releaseDate }
-                .map { RecordDto(it.ocId, it.jsonData.toJsonNode()) }.toList()
-        val recordUrls = records.map { ocds.path + "budgets/" + it.ocid }
+                .map { RecordDto(it.cpId, it.ocId, it.jsonData.toJsonNode()) }.toList()
+        val recordUrls = records.map { ocds.path + "budgets/" + it.cpid + "/" + it.ocid }
         return RecordPackageDto(
                 uri = ocds.path + "budgets/" + cpid,
                 version = ocds.version,

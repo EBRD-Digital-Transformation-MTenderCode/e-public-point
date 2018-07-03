@@ -113,8 +113,8 @@ class PublicTenderServiceImpl(
     private fun getRecordPackageDto(entities: List<ReleaseEntity>, cpid: String): RecordPackageDto {
         val publishedDate = entities.maxBy { it.releaseDate }?.releaseDate?.toLocal()
         val records = entities.asSequence().sortedBy { it.releaseDate }
-                .map { RecordDto(it.ocId, it.jsonData.toJsonNode()) }.toList()
-        val recordUrls = records.map { ocds.path + "tenders/" + it.ocid }
+                .map { RecordDto(it.cpId, it.ocId, it.jsonData.toJsonNode()) }.toList()
+        val recordUrls = records.map { ocds.path + "tenders/" + it.cpid + "/" + it.ocid }
         return RecordPackageDto(
                 uri = ocds.path + "tenders/" + cpid,
                 version = ocds.version,
