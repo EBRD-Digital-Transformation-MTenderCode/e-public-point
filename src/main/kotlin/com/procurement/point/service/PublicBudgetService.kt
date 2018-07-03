@@ -114,9 +114,9 @@ class PublicBudgetServiceImpl(
         val publishedDate = entities.maxBy { it.releaseDate }?.releaseDate?.toLocal()
         val records = entities.asSequence().sortedBy { it.releaseDate }
                 .map { RecordDto(it.ocId, it.jsonData.toJsonNode()) }.toList()
-        val recordUrls = records.map { ocds.path + "budget/" + it.ocid }
+        val recordUrls = records.map { ocds.path + "budgets/" + it.ocid }
         return RecordPackageDto(
-                uri = ocds.path + "budget/" + cpid,
+                uri = ocds.path + "budgets/" + cpid,
                 version = ocds.version,
                 extensions = ocds.extensions?.toList(),
                 publisher = PublisherDto(
@@ -136,7 +136,7 @@ class PublicBudgetServiceImpl(
         val releases = entities.asSequence().sortedBy { it.releaseDate }
                 .map { it.jsonData.toJsonNode() }.toList()
         return ReleasePackageDto(
-                uri = ocds.path + "budget/" + cpid,
+                uri = ocds.path + "budgets/" + cpid,
                 version = ocds.version,
                 extensions = ocds.extensions?.toList(),
                 publisher = PublisherDto(
