@@ -64,13 +64,13 @@ class PublicTenderServiceImpl(
         return if (offset == null) {
             entities = releaseTenderRepository.getAllReleasesByCpIdAndOcId(cpid, ocid)
             when (entities.isNotEmpty()) {
-                true -> getReleasePackageDto(entities, cpid)
+                true -> getReleasePackageDto(entities, cpid, ocid)
                 else -> throw GetDataException("No releases found.")
             }
         } else {
             entities = releaseTenderRepository.getAllReleasesByCpIdAndOcIdAndOffset(cpid, ocid, offset.toDate())
             when (entities.isNotEmpty()) {
-                true -> getReleasePackageDto(entities, cpid)
+                true -> getReleasePackageDto(entities, cpid, ocid)
                 else -> getEmptyReleasePackageDto()
             }
         }
@@ -90,12 +90,12 @@ class PublicTenderServiceImpl(
                 ?: throw GetDataException("No releases found.")
         return if (offset != null) {
             if (entity.releaseDate >= offset.toDate()) {
-                getReleasePackageDto(listOf(entity), cpid)
+                getReleasePackageDto(listOf(entity), cpid, ocid)
             } else {
                 getEmptyReleasePackageDto()
             }
         } else {
-            getReleasePackageDto(listOf(entity), cpid)
+            getReleasePackageDto(listOf(entity), cpid, ocid)
         }
     }
 
@@ -103,7 +103,7 @@ class PublicTenderServiceImpl(
         return when (limitParam) {
             null -> defLimit
             else -> when {
-                limitParam < 0 ->  throw ParamException("Limit invalid.")
+                limitParam < 0 -> throw ParamException("Limit invalid.")
                 limitParam > maxLimit -> maxLimit
                 else -> limitParam
             }
@@ -131,12 +131,12 @@ class PublicTenderServiceImpl(
                 records = records)
     }
 
-    private fun getReleasePackageDto(entities: List<ReleaseEntity>, cpid: String): ReleasePackageDto {
+    private fun getReleasePackageDto(entities: List<ReleaseEntity>, cpid: String, ocid: String): ReleasePackageDto {
         val publishedDate = entities.maxBy { it.releaseDate }?.releaseDate?.toLocal()
         val releases = entities.asSequence().sortedBy { it.releaseDate }
                 .map { it.jsonData.toJsonNode() }.toList()
         return ReleasePackageDto(
-                uri = ocds.path + "tenders/" + cpid,
+                uri = ocds.path + "tenders/" + cpid + "/" + ocid,
                 version = ocds.version,
                 extensions = ocds.extensions?.toList(),
                 publisher = PublisherDto(
