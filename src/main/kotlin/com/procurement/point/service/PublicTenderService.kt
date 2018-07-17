@@ -27,9 +27,13 @@ interface PublicTenderService {
 
     fun getReleasePackage(cpid: String, ocid: String, offset: LocalDateTime?): ReleasePackageDto
 
+    fun getRecord(cpid: String, ocid: String, offset: LocalDateTime?): ReleasePackageDto
+
     fun getByOffset(offset: LocalDateTime?, limitParam: Int?): OffsetDto
 
-    fun getRecord(cpid: String, ocid: String, offset: LocalDateTime?): ReleasePackageDto
+    fun getByOffsetCn(offset: LocalDateTime?, limitParam: Int?): OffsetDto
+
+    fun getByOffsetPlan(offset: LocalDateTime?, limitParam: Int?): OffsetDto
 }
 
 @Service
@@ -76,15 +80,6 @@ class PublicTenderServiceImpl(
         }
     }
 
-    override fun getByOffset(offset: LocalDateTime?, limitParam: Int?): OffsetDto {
-        val offsetParam = offset ?: epoch()
-        val entities = offsetTenderRepository.getAllByOffset(offsetParam.toDate(), getLimit(limitParam))
-        return when (!entities.isEmpty()) {
-            true -> getOffsetDto(entities)
-            else -> getEmptyOffsetDto(offsetParam)
-        }
-    }
-
     override fun getRecord(cpid: String, ocid: String, offset: LocalDateTime?): ReleasePackageDto {
         val entity = releaseTenderRepository.getCompiledByCpIdAndOcid(cpid, ocid)
                 ?: throw GetDataException("No releases found.")
@@ -96,6 +91,37 @@ class PublicTenderServiceImpl(
             }
         } else {
             getReleasePackageDto(listOf(entity), cpid, ocid)
+        }
+    }
+
+    override fun getByOffset(offset: LocalDateTime?, limitParam: Int?): OffsetDto {
+        val offsetParam = offset ?: epoch()
+        val entities = offsetTenderRepository.getAllByOffset(offsetParam.toDate(), getLimit(limitParam))
+        return when (!entities.isEmpty()) {
+            true -> getOffsetDto(entities)
+            else -> getEmptyOffsetDto(offsetParam)
+        }
+    }
+
+    override fun getByOffsetCn(offset: LocalDateTime?, limitParam: Int?): OffsetDto {
+        val offsetParam = offset ?: epoch()
+        val entities = offsetTenderRepository.getAllByOffsetByStatus(
+                listOf("active", "cancelled", "unsuccessful", "complete", "withdrawn"),
+                offsetParam.toDate(), getLimit(limitParam))
+        return when (!entities.isEmpty()) {
+            true -> getOffsetDto(entities)
+            else -> getEmptyOffsetDto(offsetParam)
+        }
+    }
+
+    override fun getByOffsetPlan(offset: LocalDateTime?, limitParam: Int?): OffsetDto {
+        val offsetParam = offset ?: epoch()
+        val entities = offsetTenderRepository.getAllByOffsetByStatus(
+                listOf("planning", "planned"), offsetParam.toDate(),
+                getLimit(limitParam))
+        return when (!entities.isEmpty()) {
+            true -> getOffsetDto(entities)
+            else -> getEmptyOffsetDto(offsetParam)
         }
     }
 
@@ -111,7 +137,7 @@ class PublicTenderServiceImpl(
     }
 
     private fun getRecordPackageDto(entities: List<ReleaseEntity>, cpid: String): RecordPackageDto {
-        val publishedDate = entities.maxBy { it.releaseDate }?.releaseDate?.toLocal()
+        val publishedDate = entities.minBy { it.releaseDate }?.releaseDate?.toLocal()
         val records = entities.asSequence().sortedBy { it.releaseDate }
                 .map { RecordDto(it.cpId, it.ocId, it.jsonData.toJsonNode()) }.toList()
         val recordUrls = records.map { ocds.path + "tenders/" + it.cpid + "/" + it.ocid }
@@ -132,7 +158,7 @@ class PublicTenderServiceImpl(
     }
 
     private fun getReleasePackageDto(entities: List<ReleaseEntity>, cpid: String, ocid: String): ReleasePackageDto {
-        val publishedDate = entities.maxBy { it.releaseDate }?.releaseDate?.toLocal()
+        val publishedDate = entities.minBy { it.releaseDate }?.releaseDate?.toLocal()
         val releases = entities.asSequence().sortedBy { it.releaseDate }
                 .map { it.jsonData.toJsonNode() }.toList()
         return ReleasePackageDto(
