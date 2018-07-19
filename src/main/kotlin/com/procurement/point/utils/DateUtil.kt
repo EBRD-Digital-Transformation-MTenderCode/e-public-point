@@ -16,3 +16,7 @@ fun Date.toLocal(): LocalDateTime {
 fun localNowUTC(): LocalDateTime {
     return LocalDateTime.ofInstant(Instant.now(), ZoneOffset.UTC)
 }
+
+fun epoch(): LocalDateTime {
+    return LocalDateTime.ofInstant(Instant.ofEpochSecond(0L), ZoneOffset.UTC)
+}
