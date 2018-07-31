@@ -38,6 +38,6 @@ data class RecordPackage(
         @JsonProperty("records")
         val records: List<Record>?,
 
-        @JsonProperty("records")
+        @JsonProperty("actualReleases")
         val actualReleases: List<ActualRelease>?
 )
