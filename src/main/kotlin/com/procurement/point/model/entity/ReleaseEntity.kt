@@ -26,5 +26,7 @@ data class ReleaseEntity(
         val stage: String,
 
         @Column(value = "json_data")
-        val jsonData: String
+        val jsonData: String,
+
+        var status: String? = ""
 )

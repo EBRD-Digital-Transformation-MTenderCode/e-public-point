@@ -8,7 +8,7 @@ import com.procurement.point.model.dto.PublisherDto
 import java.time.LocalDateTime
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-data class RecordPackageDto(
+data class RecordPackage(
 
         @JsonProperty("uri")
         val uri: String?,
@@ -36,5 +36,8 @@ data class RecordPackageDto(
         val packages: List<String>?,
 
         @JsonProperty("records")
-        val records: List<RecordDto>?
+        val records: List<Record>?,
+
+        @JsonProperty("records")
+        val actualReleases: List<ActualRelease>?
 )

@@ -6,8 +6,8 @@ import com.procurement.point.exception.ParamException
 import com.procurement.point.model.dto.PublisherDto
 import com.procurement.point.model.dto.offset.CpidDto
 import com.procurement.point.model.dto.offset.OffsetDto
-import com.procurement.point.model.dto.record.RecordDto
-import com.procurement.point.model.dto.record.RecordPackageDto
+import com.procurement.point.model.dto.record.Record
+import com.procurement.point.model.dto.record.RecordPackage
 import com.procurement.point.model.dto.release.ReleasePackageDto
 import com.procurement.point.model.entity.OffsetEntity
 import com.procurement.point.model.entity.ReleaseEntity
@@ -23,7 +23,7 @@ import java.time.LocalDateTime
 
 interface PublicBudgetService {
 
-    fun getRecordPackage(cpid: String, offset: LocalDateTime?): RecordPackageDto
+    fun getRecordPackage(cpid: String, offset: LocalDateTime?): RecordPackage
 
     fun getReleasePackage(cpid: String, ocid: String, offset: LocalDateTime?): ReleasePackageDto
 
@@ -42,7 +42,7 @@ class PublicBudgetServiceImpl(
     private val defLimit: Int = ocds.defLimit ?: 100
     private val maxLimit: Int = ocds.maxLimit ?: 300
 
-    override fun getRecordPackage(cpid: String, offset: LocalDateTime?): RecordPackageDto {
+    override fun getRecordPackage(cpid: String, offset: LocalDateTime?): RecordPackage {
         val entities: List<ReleaseEntity>
         return if (offset == null) {
             entities = releaseBudgetRepository.getAllCompiledByCpId(cpid)
@@ -110,12 +110,12 @@ class PublicBudgetServiceImpl(
         }
     }
 
-    private fun getRecordPackageDto(entities: List<ReleaseEntity>, cpid: String): RecordPackageDto {
+    private fun getRecordPackageDto(entities: List<ReleaseEntity>, cpid: String): RecordPackage {
         val publishedDate = entities.minBy { it.releaseDate }?.releaseDate?.toLocal()
         val records = entities.asSequence().sortedBy { it.releaseDate }
-                .map { RecordDto(it.cpId, it.ocId, it.jsonData.toJsonNode()) }.toList()
+                .map { Record(it.cpId, it.ocId, it.jsonData.toJsonNode()) }.toList()
         val recordUrls = records.map { ocds.path + "budgets/" + it.cpid + "/" + it.ocid }
-        return RecordPackageDto(
+        return RecordPackage(
                 uri = ocds.path + "budgets/" + cpid,
                 version = ocds.version,
                 extensions = ocds.extensions?.toList(),
@@ -173,8 +173,8 @@ class PublicBudgetServiceImpl(
                 releases = null)
     }
 
-    private fun getEmptyRecordPackageDto(): RecordPackageDto {
-        return RecordPackageDto(
+    private fun getEmptyRecordPackageDto(): RecordPackage {
+        return RecordPackage(
                 uri = null,
                 version = null,
                 extensions = null,
