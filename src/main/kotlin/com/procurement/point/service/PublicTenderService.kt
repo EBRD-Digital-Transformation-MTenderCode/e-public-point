@@ -214,6 +214,7 @@ class PublicTenderServiceImpl(
                 publicationPolicy = null,
                 publishedDate = null,
                 packages = null,
-                records = null)
+                records = null,
+                actualReleases = null)
     }
 }

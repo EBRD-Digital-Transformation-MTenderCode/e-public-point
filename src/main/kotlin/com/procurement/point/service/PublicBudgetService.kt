@@ -128,7 +128,9 @@ class PublicBudgetServiceImpl(
                 publicationPolicy = ocds.publicationPolicy,
                 publishedDate = publishedDate,
                 packages = recordUrls,
-                records = records)
+                records = records,
+                actualReleases = null
+        )
     }
 
     private fun getReleasePackageDto(entities: List<ReleaseEntity>, cpid: String, ocid: String): ReleasePackageDto {
@@ -183,6 +185,7 @@ class PublicBudgetServiceImpl(
                 publicationPolicy = null,
                 publishedDate = null,
                 packages = null,
-                records = null)
+                records = null,
+                actualReleases = null)
     }
 }
