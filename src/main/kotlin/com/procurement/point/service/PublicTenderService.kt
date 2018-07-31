@@ -141,6 +141,7 @@ class PublicTenderServiceImpl(
         val publishedDate = entities.minBy { it.releaseDate }?.releaseDate?.toLocal()
         val records = entities.asSequence().sortedBy { it.releaseDate }
                 .map { Record(it.cpId, it.ocId, it.jsonData.toJsonNode()) }.toList()
+
         val actualReleases = entities.asSequence().filter { it.stage != "MS" && it.status == "active"}
                 .map { ActualRelease(stage = it.stage, uri = ocds.path + "tenders/" + it.cpId + "/" + it.ocId) }.toList()
 
