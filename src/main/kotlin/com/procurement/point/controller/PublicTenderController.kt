@@ -1,8 +1,8 @@
 package com.procurement.point.controller
 
-import com.procurement.point.model.dto.offset.OffsetDto
-import com.procurement.point.model.dto.record.RecordPackage
-import com.procurement.point.model.dto.release.ReleasePackageDto
+import com.procurement.point.model.dto.OffsetDto
+import com.procurement.point.model.dto.RecordPackageDto
+import com.procurement.point.model.dto.ReleasePackageDto
 import com.procurement.point.service.PublicTenderService
 import org.springframework.format.annotation.DateTimeFormat
 import org.springframework.http.HttpStatus
@@ -27,7 +27,7 @@ class PublicTenderController(private val publicService: PublicTenderService) {
     fun getRecordPackage(@PathVariable(value = "cpid") cpid: String,
                          @RequestParam(value = "offset", required = false)
                          @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-                         offset: LocalDateTime?): ResponseEntity<RecordPackage> {
+                         offset: LocalDateTime?): ResponseEntity<RecordPackageDto> {
         return ResponseEntity(publicService.getRecordPackage(cpid, offset), HttpStatus.OK)
     }
 

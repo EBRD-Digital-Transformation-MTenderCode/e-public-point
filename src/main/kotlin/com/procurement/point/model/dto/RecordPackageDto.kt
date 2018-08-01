@@ -1,15 +1,15 @@
-package com.procurement.point.model.dto.release
+package com.procurement.point.model.dto
 
+import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.annotation.JsonSerialize
 import com.procurement.point.databinding.JsonDateSerializer
-import com.procurement.point.model.dto.PublisherDto
 import java.time.LocalDateTime
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-data class ReleasePackageDto(
+data class RecordPackageDto(
 
         @JsonProperty("uri")
         val uri: String?,
@@ -33,6 +33,29 @@ data class ReleasePackageDto(
         @JsonSerialize(using = JsonDateSerializer::class)
         val publishedDate: LocalDateTime?,
 
-        @JsonProperty("releases")
-        val releases: List<JsonNode>?
+        @JsonProperty("packages")
+        val packages: List<String>?,
+
+        @JsonProperty("records")
+        val records: List<RecordDto>?,
+
+        @JsonProperty("actualReleases")
+        val actualReleases: List<ActualReleaseDto>?
+)
+
+data class RecordDto(
+
+        @JsonIgnore
+        val cpid: String,
+
+        val ocid: String,
+
+        val compiledRelease: JsonNode
+)
+
+data class ActualReleaseDto(
+
+        val stage: String,
+
+        val uri: String
 )
