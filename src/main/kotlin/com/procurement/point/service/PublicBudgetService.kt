@@ -9,8 +9,10 @@ import com.procurement.point.model.dto.offset.OffsetDto
 import com.procurement.point.model.dto.record.Record
 import com.procurement.point.model.dto.record.RecordPackage
 import com.procurement.point.model.dto.release.ReleasePackageDto
-import com.procurement.point.model.entity.OffsetEntity
-import com.procurement.point.model.entity.ReleaseEntity
+import com.procurement.point.model.entity.OffsetBudgetEntity
+import com.procurement.point.model.entity.OffsetTenderEntity
+import com.procurement.point.model.entity.ReleaseBudgetEntity
+import com.procurement.point.model.entity.ReleaseTenderEntity
 import com.procurement.point.repository.OffsetBudgetRepository
 import com.procurement.point.repository.ReleaseBudgetRepository
 import com.procurement.point.utils.epoch
@@ -23,11 +25,9 @@ import java.time.LocalDateTime
 
 interface PublicBudgetService {
 
-    fun getRecordPackage(cpid: String, offset: LocalDateTime?): RecordPackage
-
-    fun getReleasePackage(cpid: String, ocid: String, offset: LocalDateTime?): ReleasePackageDto
-
     fun getByOffset(offset: LocalDateTime?, limitParam: Int?): OffsetDto
+
+    fun getRecordPackage(cpid: String, offset: LocalDateTime?): RecordPackage
 
     fun getRecord(cpid: String, ocid: String, offset: LocalDateTime?): ReleasePackageDto
 }
@@ -42,8 +42,18 @@ class PublicBudgetServiceImpl(
     private val defLimit: Int = ocds.defLimit ?: 100
     private val maxLimit: Int = ocds.maxLimit ?: 300
 
+
+    override fun getByOffset(offset: LocalDateTime?, limitParam: Int?): OffsetDto {
+        val offsetParam = offset ?: epoch()
+        val entities = offsetBudgetRepository.getAllByOffset(offsetParam.toDate(), getLimit(limitParam))
+        return when (!entities.isEmpty()) {
+            true -> getOffsetDto(entities)
+            else -> getEmptyOffsetDto(offsetParam)
+        }
+    }
+
     override fun getRecordPackage(cpid: String, offset: LocalDateTime?): RecordPackage {
-        val entities: List<ReleaseEntity>
+        val entities: List<ReleaseBudgetEntity>
         return if (offset == null) {
             entities = releaseBudgetRepository.getAllCompiledByCpId(cpid)
             when (entities.isNotEmpty()) {
@@ -56,32 +66,6 @@ class PublicBudgetServiceImpl(
                 true -> getRecordPackageDto(entities, cpid)
                 else -> getEmptyRecordPackageDto()
             }
-        }
-    }
-
-    override fun getReleasePackage(cpid: String, ocid: String, offset: LocalDateTime?): ReleasePackageDto {
-        val entities: List<ReleaseEntity>
-        return if (offset == null) {
-            entities = releaseBudgetRepository.getAllReleasesByCpIdAndOcId(cpid, ocid)
-            when (entities.isNotEmpty()) {
-                true -> getReleasePackageDto(entities, cpid, ocid)
-                else -> throw GetDataException("No releases found.")
-            }
-        } else {
-            entities = releaseBudgetRepository.getAllReleasesByCpIdAndOcIdAndOffset(cpid, ocid, offset.toDate())
-            when (entities.isNotEmpty()) {
-                true -> getReleasePackageDto(entities, cpid, ocid)
-                else -> getEmptyReleasePackageDto()
-            }
-        }
-    }
-
-    override fun getByOffset(offset: LocalDateTime?, limitParam: Int?): OffsetDto {
-        val offsetParam = offset ?: epoch()
-        val entities = offsetBudgetRepository.getAllByOffset(offsetParam.toDate(), getLimit(limitParam))
-        return when (!entities.isEmpty()) {
-            true -> getOffsetDto(entities)
-            else -> getEmptyOffsetDto(offsetParam)
         }
     }
 
@@ -110,7 +94,7 @@ class PublicBudgetServiceImpl(
         }
     }
 
-    private fun getRecordPackageDto(entities: List<ReleaseEntity>, cpid: String): RecordPackage {
+    private fun getRecordPackageDto(entities: List<ReleaseBudgetEntity>, cpid: String): RecordPackage {
         val publishedDate = entities.minBy { it.releaseDate }?.releaseDate?.toLocal()
         val records = entities.asSequence().sortedBy { it.releaseDate }
                 .map { Record(it.cpId, it.ocId, it.jsonData.toJsonNode()) }.toList()
@@ -133,7 +117,7 @@ class PublicBudgetServiceImpl(
         )
     }
 
-    private fun getReleasePackageDto(entities: List<ReleaseEntity>, cpid: String, ocid: String): ReleasePackageDto {
+    private fun getReleasePackageDto(entities: List<ReleaseBudgetEntity>, cpid: String, ocid: String): ReleasePackageDto {
         val publishedDate = entities.minBy { it.releaseDate }?.releaseDate?.toLocal()
         val releases = entities.asSequence().sortedBy { it.releaseDate }
                 .map { it.jsonData.toJsonNode() }.toList()
@@ -152,7 +136,7 @@ class PublicBudgetServiceImpl(
                 releases = releases)
     }
 
-    private fun getOffsetDto(entities: List<OffsetEntity>): OffsetDto {
+    private fun getOffsetDto(entities: List<OffsetBudgetEntity>): OffsetDto {
         val offset = entities.maxBy { it.date }?.date?.toLocal()
         val cpIds = entities.asSequence().sortedBy { it.date }
                 .map { CpidDto(it.cpId, it.date.toLocal()) }.toList()

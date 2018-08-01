@@ -16,6 +16,14 @@ import java.time.LocalDateTime
 @RequestMapping("/budgets")
 class PublicBudgetController(private val publicService: PublicBudgetService) {
 
+    @GetMapping
+    fun getByOffset(@RequestParam(value = "offset", required = false)
+                    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+                    offset: LocalDateTime?,
+                    @RequestParam(value = "limit", required = false) limitParam: Int?): ResponseEntity<OffsetDto> {
+        return ResponseEntity(publicService.getByOffset(offset, limitParam), HttpStatus.OK)
+    }
+
     @GetMapping("/{cpid}")
     fun getRecordPackage(@PathVariable(value = "cpid") cpid: String,
                          @RequestParam(value = "offset", required = false)
@@ -33,12 +41,5 @@ class PublicBudgetController(private val publicService: PublicBudgetService) {
         return ResponseEntity(publicService.getRecord(cpid, ocid, offset), HttpStatus.OK)
     }
 
-    @GetMapping
-    fun getByOffset(@RequestParam(value = "offset", required = false)
-                    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-                    offset: LocalDateTime?,
-                    @RequestParam(value = "limit", required = false) limitParam: Int?): ResponseEntity<OffsetDto> {
-        return ResponseEntity(publicService.getByOffset(offset, limitParam), HttpStatus.OK)
-    }
 }
 
