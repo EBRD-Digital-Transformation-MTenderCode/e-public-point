@@ -43,9 +43,9 @@ class PublicBudgetServiceImpl(
 
     override fun getByOffset(offset: LocalDateTime?, limitParam: Int?): OffsetDto {
         val offsetParam = offset ?: epoch()
-        val entities = offsetBudgetRepository.getAllByOffset(offsetParam.toDate(), getLimit(limitParam))
+        val entities = offsetBudgetRepository.getAllByOffset(offsetParam.toDate())
         return when (!entities.isEmpty()) {
-            true -> getOffsetDto(entities)
+            true -> getOffsetDto(entities, getLimit(limitParam))
             else -> getEmptyOffsetDto()
         }
     }
@@ -134,10 +134,13 @@ class PublicBudgetServiceImpl(
                 releases = releases)
     }
 
-    private fun getOffsetDto(entities: List<OffsetBudgetEntity>): OffsetDto {
+    private fun getOffsetDto(entities: List<OffsetBudgetEntity>, limit: Int): OffsetDto {
         val offset = entities.maxBy { it.date }?.date?.toLocal()
-        val cpIds = entities.asSequence().sortedBy { it.date }
-                .map { DataDto(it.cpId, it.date.toLocal()) }.toList()
+        val cpIds = entities.asSequence()
+                .sortedBy { it.date }
+                .map { DataDto(it.cpId, it.date.toLocal()) }
+                .take(limit)
+                .toList()
         return OffsetDto(data = cpIds, offset = offset)
     }
 

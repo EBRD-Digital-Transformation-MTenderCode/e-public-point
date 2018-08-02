@@ -10,7 +10,7 @@ import java.util.*
 @Repository
 interface OffsetBudgetRepository : CassandraRepository<OffsetBudgetEntity, String> {
 
-    @Query(value = "SELECT * FROM notice_budget_offset WHERE release_date>?0 LIMIT ?1 ALLOW FILTERING")
-    fun getAllByOffset(offset: Date, limit: Int): List<OffsetBudgetEntity>
+    @Query(value = "SELECT * FROM notice_budget_offset WHERE release_date>?0 ALLOW FILTERING")
+    fun getAllByOffset(offset: Date): List<OffsetBudgetEntity>
 
 }
