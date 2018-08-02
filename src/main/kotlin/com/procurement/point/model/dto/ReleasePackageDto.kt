@@ -1,4 +1,4 @@
-package com.procurement.point.model.dto.release
+package com.procurement.point.model.dto
 
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonProperty

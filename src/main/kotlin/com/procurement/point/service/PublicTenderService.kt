@@ -4,13 +4,15 @@ import com.procurement.point.config.OCDSProperties
 import com.procurement.point.exception.GetDataException
 import com.procurement.point.exception.ParamException
 import com.procurement.point.model.dto.PublisherDto
-import com.procurement.point.model.dto.offset.CpidDto
-import com.procurement.point.model.dto.offset.OffsetDto
-import com.procurement.point.model.dto.record.RecordDto
-import com.procurement.point.model.dto.record.RecordPackageDto
-import com.procurement.point.model.dto.release.ReleasePackageDto
-import com.procurement.point.model.entity.OffsetEntity
-import com.procurement.point.model.entity.ReleaseEntity
+import com.procurement.point.model.dto.DataDto
+import com.procurement.point.model.dto.OffsetDto
+import com.procurement.point.model.dto.ActualReleaseDto
+import com.procurement.point.model.dto.RecordDto
+import com.procurement.point.model.dto.RecordPackageDto
+import com.procurement.point.model.dto.ReleasePackageDto
+import com.procurement.point.model.entity.OffsetBudgetEntity
+import com.procurement.point.model.entity.OffsetTenderEntity
+import com.procurement.point.model.entity.ReleaseTenderEntity
 import com.procurement.point.repository.OffsetTenderRepository
 import com.procurement.point.repository.ReleaseTenderRepository
 import com.procurement.point.utils.epoch
@@ -23,13 +25,11 @@ import java.time.LocalDateTime
 
 interface PublicTenderService {
 
+    fun getByOffset(offset: LocalDateTime?, limitParam: Int?): OffsetDto
+
     fun getRecordPackage(cpid: String, offset: LocalDateTime?): RecordPackageDto
 
-    fun getReleasePackage(cpid: String, ocid: String, offset: LocalDateTime?): ReleasePackageDto
-
     fun getRecord(cpid: String, ocid: String, offset: LocalDateTime?): ReleasePackageDto
-
-    fun getByOffset(offset: LocalDateTime?, limitParam: Int?): OffsetDto
 
     fun getByOffsetCn(offset: LocalDateTime?, limitParam: Int?): OffsetDto
 
@@ -46,8 +46,17 @@ class PublicTenderServiceImpl(
     private val defLimit: Int = ocds.defLimit ?: 100
     private val maxLimit: Int = ocds.maxLimit ?: 300
 
+    override fun getByOffset(offset: LocalDateTime?, limitParam: Int?): OffsetDto {
+        val offsetParam = offset ?: epoch()
+        val entities = offsetTenderRepository.getAllByOffset(offsetParam.toDate())
+        return when (!entities.isEmpty()) {
+            true -> getOffsetDto(entities, getLimit(limitParam))
+            else -> getEmptyOffsetDto()
+        }
+    }
+
     override fun getRecordPackage(cpid: String, offset: LocalDateTime?): RecordPackageDto {
-        val entities: List<ReleaseEntity>
+        val entities: List<ReleaseTenderEntity>
         return if (offset == null) {
             entities = releaseTenderRepository.getAllCompiledByCpId(cpid)
             when (entities.isNotEmpty()) {
@@ -59,23 +68,6 @@ class PublicTenderServiceImpl(
             when (entities.isNotEmpty()) {
                 true -> getRecordPackageDto(entities, cpid)
                 else -> getEmptyRecordPackageDto()
-            }
-        }
-    }
-
-    override fun getReleasePackage(cpid: String, ocid: String, offset: LocalDateTime?): ReleasePackageDto {
-        val entities: List<ReleaseEntity>
-        return if (offset == null) {
-            entities = releaseTenderRepository.getAllReleasesByCpIdAndOcId(cpid, ocid)
-            when (entities.isNotEmpty()) {
-                true -> getReleasePackageDto(entities, cpid, ocid)
-                else -> throw GetDataException("No releases found.")
-            }
-        } else {
-            entities = releaseTenderRepository.getAllReleasesByCpIdAndOcIdAndOffset(cpid, ocid, offset.toDate())
-            when (entities.isNotEmpty()) {
-                true -> getReleasePackageDto(entities, cpid, ocid)
-                else -> getEmptyReleasePackageDto()
             }
         }
     }
@@ -94,34 +86,24 @@ class PublicTenderServiceImpl(
         }
     }
 
-    override fun getByOffset(offset: LocalDateTime?, limitParam: Int?): OffsetDto {
-        val offsetParam = offset ?: epoch()
-        val entities = offsetTenderRepository.getAllByOffset(offsetParam.toDate(), getLimit(limitParam))
-        return when (!entities.isEmpty()) {
-            true -> getOffsetDto(entities)
-            else -> getEmptyOffsetDto(offsetParam)
-        }
-    }
-
     override fun getByOffsetCn(offset: LocalDateTime?, limitParam: Int?): OffsetDto {
         val offsetParam = offset ?: epoch()
         val entities = offsetTenderRepository.getAllByOffsetByStatus(
                 listOf("active", "cancelled", "unsuccessful", "complete", "withdrawn"),
-                offsetParam.toDate(), getLimit(limitParam))
+                offsetParam.toDate())
         return when (!entities.isEmpty()) {
-            true -> getOffsetDto(entities)
-            else -> getEmptyOffsetDto(offsetParam)
+            true -> getOffsetDto(entities, getLimit(limitParam))
+            else -> getEmptyOffsetDto()
         }
     }
 
     override fun getByOffsetPlan(offset: LocalDateTime?, limitParam: Int?): OffsetDto {
         val offsetParam = offset ?: epoch()
         val entities = offsetTenderRepository.getAllByOffsetByStatus(
-                listOf("planning", "planned"), offsetParam.toDate(),
-                getLimit(limitParam))
+                listOf("planning", "planned"), offsetParam.toDate())
         return when (!entities.isEmpty()) {
-            true -> getOffsetDto(entities)
-            else -> getEmptyOffsetDto(offsetParam)
+            true -> getOffsetDto(entities, getLimit(limitParam))
+            else -> getEmptyOffsetDto()
         }
     }
 
@@ -136,10 +118,18 @@ class PublicTenderServiceImpl(
         }
     }
 
-    private fun getRecordPackageDto(entities: List<ReleaseEntity>, cpid: String): RecordPackageDto {
+    private fun getRecordPackageDto(entities: List<ReleaseTenderEntity>, cpid: String): RecordPackageDto {
         val publishedDate = entities.minBy { it.releaseDate }?.releaseDate?.toLocal()
-        val records = entities.asSequence().sortedBy { it.releaseDate }
-                .map { RecordDto(it.cpId, it.ocId, it.jsonData.toJsonNode()) }.toList()
+        val records = entities.asSequence()
+                .sortedBy { it.releaseDate }
+                .map { RecordDto(it.cpId, it.ocId, it.jsonData.toJsonNode()) }
+                .toList()
+
+        val actualReleases = entities.asSequence()
+                .filter { it.stage != "MS" && it.status == "active"}
+                .map { ActualReleaseDto(stage = it.stage, uri = ocds.path + "tenders/" + it.cpId + "/" + it.ocId) }
+                .toList()
+
         val recordUrls = records.map { ocds.path + "tenders/" + it.cpid + "/" + it.ocid }
         return RecordPackageDto(
                 uri = ocds.path + "tenders/" + cpid,
@@ -154,13 +144,16 @@ class PublicTenderServiceImpl(
                 publicationPolicy = ocds.publicationPolicy,
                 publishedDate = publishedDate,
                 packages = recordUrls,
-                records = records)
+                records = records,
+                actualReleases = actualReleases)
     }
 
-    private fun getReleasePackageDto(entities: List<ReleaseEntity>, cpid: String, ocid: String): ReleasePackageDto {
+    private fun getReleasePackageDto(entities: List<ReleaseTenderEntity>, cpid: String, ocid: String): ReleasePackageDto {
         val publishedDate = entities.minBy { it.releaseDate }?.releaseDate?.toLocal()
-        val releases = entities.asSequence().sortedBy { it.releaseDate }
-                .map { it.jsonData.toJsonNode() }.toList()
+        val releases = entities.asSequence()
+                .sortedBy { it.releaseDate }
+                .map { it.jsonData.toJsonNode() }
+                .toList()
         return ReleasePackageDto(
                 uri = ocds.path + "tenders/" + cpid + "/" + ocid,
                 version = ocds.version,
@@ -176,15 +169,19 @@ class PublicTenderServiceImpl(
                 releases = releases)
     }
 
-    private fun getOffsetDto(entities: List<OffsetEntity>): OffsetDto {
+    private fun getOffsetDto(entities: List<OffsetTenderEntity>, limit: Int): OffsetDto {
         val offset = entities.maxBy { it.date }?.date?.toLocal()
-        val cpIds = entities.asSequence().sortedBy { it.date }
-                .map { CpidDto(it.cpId, it.date.toLocal()) }.toList()
+        val cpIds = entities.asSequence()
+                .sortedBy { it.date }
+                .map { DataDto(it.cpId, it.date.toLocal()) }
+                .take(limit)
+                .toList()
         return OffsetDto(data = cpIds, offset = offset)
     }
 
-    private fun getEmptyOffsetDto(offset: LocalDateTime): OffsetDto {
-        return OffsetDto(data = ArrayList(), offset = offset)
+
+    private fun getEmptyOffsetDto(): OffsetDto {
+        return OffsetDto(data = null, offset = null)
     }
 
     private fun getEmptyReleasePackageDto(): ReleasePackageDto {
@@ -209,6 +206,7 @@ class PublicTenderServiceImpl(
                 publicationPolicy = null,
                 publishedDate = null,
                 packages = null,
-                records = null)
+                records = null,
+                actualReleases = null)
     }
 }

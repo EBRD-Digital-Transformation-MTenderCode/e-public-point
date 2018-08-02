@@ -7,8 +7,7 @@ import org.springframework.data.cassandra.core.mapping.PrimaryKeyColumn
 import org.springframework.data.cassandra.core.mapping.Table
 import java.util.*
 
-@Table(value = "notice_release")
-data class ReleaseEntity(
+data class ReleaseBudgetEntity(
 
         @PrimaryKeyColumn(name = "cp_id", type = PrimaryKeyType.PARTITIONED)
         val cpId: String,

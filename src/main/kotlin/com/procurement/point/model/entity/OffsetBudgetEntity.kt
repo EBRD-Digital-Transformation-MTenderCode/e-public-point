@@ -6,8 +6,7 @@ import org.springframework.data.cassandra.core.mapping.PrimaryKeyColumn
 import org.springframework.data.cassandra.core.mapping.Table
 import java.util.*
 
-@Table(value = "notice_offset")
-data class OffsetEntity(
+data class OffsetBudgetEntity(
 
         @PrimaryKeyColumn(name = "cp_id", type = PrimaryKeyType.PARTITIONED)
         val cpId: String,
