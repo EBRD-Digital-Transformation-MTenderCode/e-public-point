@@ -3,12 +3,7 @@ package com.procurement.point.service
 import com.procurement.point.config.OCDSProperties
 import com.procurement.point.exception.GetDataException
 import com.procurement.point.exception.ParamException
-import com.procurement.point.model.dto.PublisherDto
-import com.procurement.point.model.dto.DataDto
-import com.procurement.point.model.dto.OffsetDto
-import com.procurement.point.model.dto.RecordDto
-import com.procurement.point.model.dto.RecordPackageDto
-import com.procurement.point.model.dto.ReleasePackageDto
+import com.procurement.point.model.dto.*
 import com.procurement.point.model.entity.OffsetBudgetEntity
 import com.procurement.point.model.entity.ReleaseBudgetEntity
 import com.procurement.point.repository.OffsetBudgetRepository
@@ -135,12 +130,9 @@ class PublicBudgetServiceImpl(
     }
 
     private fun getOffsetDto(entities: List<OffsetBudgetEntity>, limit: Int): OffsetDto {
-        val offset = entities.maxBy { it.date }?.date?.toLocal()
-        val cpIds = entities.asSequence()
-                .sortedBy { it.date }
-                .map { DataDto(it.cpId, it.date.toLocal()) }
-                .take(limit)
-                .toList()
+        val entitiesList = entities.asSequence().sortedBy { it.date }.take(limit).toList()
+        val offset = entitiesList.maxBy { it.date }?.date?.toLocal()
+        val cpIds = entitiesList.asSequence().map { DataDto(it.cpId, it.date.toLocal()) }.toList()
         return OffsetDto(data = cpIds, offset = offset)
     }
 

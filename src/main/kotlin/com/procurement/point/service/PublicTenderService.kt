@@ -27,13 +27,14 @@ interface PublicTenderService {
 
     fun getByOffset(offset: LocalDateTime?, limitParam: Int?): OffsetDto
 
+    fun getByOffsetCn(offset: LocalDateTime?, limitParam: Int?): OffsetDto
+
+    fun getByOffsetPlan(offset: LocalDateTime?, limitParam: Int?): OffsetDto
+
     fun getRecordPackage(cpid: String, offset: LocalDateTime?): RecordPackageDto
 
     fun getRecord(cpid: String, ocid: String, offset: LocalDateTime?): ReleasePackageDto
 
-    fun getByOffsetCn(offset: LocalDateTime?, limitParam: Int?): OffsetDto
-
-    fun getByOffsetPlan(offset: LocalDateTime?, limitParam: Int?): OffsetDto
 }
 
 @Service
@@ -54,6 +55,28 @@ class PublicTenderServiceImpl(
             else -> getEmptyOffsetDto()
         }
     }
+
+    override fun getByOffsetCn(offset: LocalDateTime?, limitParam: Int?): OffsetDto {
+        val offsetParam = offset ?: epoch()
+        val entities = offsetTenderRepository.getAllByOffsetByStatus(
+                listOf("active", "cancelled", "unsuccessful", "complete", "withdrawn"),
+                offsetParam.toDate())
+        return when (!entities.isEmpty()) {
+            true -> getOffsetDto(entities, getLimit(limitParam))
+            else -> getEmptyOffsetDto()
+        }
+    }
+
+    override fun getByOffsetPlan(offset: LocalDateTime?, limitParam: Int?): OffsetDto {
+        val offsetParam = offset ?: epoch()
+        val entities = offsetTenderRepository.getAllByOffsetByStatus(
+                listOf("planning", "planned"), offsetParam.toDate())
+        return when (!entities.isEmpty()) {
+            true -> getOffsetDto(entities, getLimit(limitParam))
+            else -> getEmptyOffsetDto()
+        }
+    }
+
 
     override fun getRecordPackage(cpid: String, offset: LocalDateTime?): RecordPackageDto {
         val entities: List<ReleaseTenderEntity>
@@ -83,27 +106,6 @@ class PublicTenderServiceImpl(
             }
         } else {
             getReleasePackageDto(listOf(entity), cpid, ocid)
-        }
-    }
-
-    override fun getByOffsetCn(offset: LocalDateTime?, limitParam: Int?): OffsetDto {
-        val offsetParam = offset ?: epoch()
-        val entities = offsetTenderRepository.getAllByOffsetByStatus(
-                listOf("active", "cancelled", "unsuccessful", "complete", "withdrawn"),
-                offsetParam.toDate())
-        return when (!entities.isEmpty()) {
-            true -> getOffsetDto(entities, getLimit(limitParam))
-            else -> getEmptyOffsetDto()
-        }
-    }
-
-    override fun getByOffsetPlan(offset: LocalDateTime?, limitParam: Int?): OffsetDto {
-        val offsetParam = offset ?: epoch()
-        val entities = offsetTenderRepository.getAllByOffsetByStatus(
-                listOf("planning", "planned"), offsetParam.toDate())
-        return when (!entities.isEmpty()) {
-            true -> getOffsetDto(entities, getLimit(limitParam))
-            else -> getEmptyOffsetDto()
         }
     }
 
@@ -170,12 +172,9 @@ class PublicTenderServiceImpl(
     }
 
     private fun getOffsetDto(entities: List<OffsetTenderEntity>, limit: Int): OffsetDto {
-        val offset = entities.maxBy { it.date }?.date?.toLocal()
-        val cpIds = entities.asSequence()
-                .sortedBy { it.date }
-                .map { DataDto(it.cpId, it.date.toLocal()) }
-                .take(limit)
-                .toList()
+        val entitiesList = entities.asSequence().sortedBy { it.date }.take(limit).toList()
+        val offset = entitiesList.maxBy { it.date }?.date?.toLocal()
+        val cpIds = entitiesList.asSequence().map { DataDto(it.cpId, it.date.toLocal()) }.toList()
         return OffsetDto(data = cpIds, offset = offset)
     }
 
