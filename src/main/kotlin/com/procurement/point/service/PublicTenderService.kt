@@ -10,7 +10,6 @@ import com.procurement.point.model.dto.ActualReleaseDto
 import com.procurement.point.model.dto.RecordDto
 import com.procurement.point.model.dto.RecordPackageDto
 import com.procurement.point.model.dto.ReleasePackageDto
-import com.procurement.point.model.entity.OffsetBudgetEntity
 import com.procurement.point.model.entity.OffsetTenderEntity
 import com.procurement.point.model.entity.ReleaseTenderEntity
 import com.procurement.point.repository.OffsetTenderRepository
@@ -55,28 +54,6 @@ class PublicTenderServiceImpl(
         }
     }
 
-    override fun getByOffsetCn(offset: LocalDateTime?, limitParam: Int?): OffsetDto {
-        val offsetParam = offset ?: epoch()
-        val entities = offsetTenderRepository.getAllByOffsetByStatus(
-                listOf("active", "cancelled", "unsuccessful", "complete", "withdrawn"),
-                offsetParam.toDate())
-        return when (!entities.isEmpty()) {
-            true -> getOffsetDto(entities, getLimit(limitParam))
-            else -> getEmptyOffsetDto()
-        }
-    }
-
-    override fun getByOffsetPlan(offset: LocalDateTime?, limitParam: Int?): OffsetDto {
-        val offsetParam = offset ?: epoch()
-        val entities = offsetTenderRepository.getAllByOffsetByStatus(
-                listOf("planning", "planned"), offsetParam.toDate())
-        return when (!entities.isEmpty()) {
-            true -> getOffsetDto(entities, getLimit(limitParam))
-            else -> getEmptyOffsetDto()
-        }
-    }
-
-
     override fun getRecordPackage(cpid: String, offset: LocalDateTime?): RecordPackageDto {
         val entities: List<ReleaseTenderEntity>
         return if (offset == null) {
@@ -105,6 +82,31 @@ class PublicTenderServiceImpl(
             }
         } else {
             getReleasePackageDto(listOf(entity), cpid, ocid)
+        }
+    }
+
+    override fun getByOffsetCn(offset: LocalDateTime?, limitParam: Int?): OffsetDto {
+        val offsetParam = offset?.toDate() ?: epoch().toDate()
+        val active = offsetTenderRepository.getAllByOffsetAndStatus("active", offsetParam)
+        val cancelled = offsetTenderRepository.getAllByOffsetAndStatus("cancelled", offsetParam)
+        val unsuccessful = offsetTenderRepository.getAllByOffsetAndStatus("unsuccessful", offsetParam)
+        val complete = offsetTenderRepository.getAllByOffsetAndStatus("complete", offsetParam)
+        val withdrawn = offsetTenderRepository.getAllByOffsetAndStatus("withdrawn", offsetParam)
+        val entities = active + cancelled + unsuccessful + complete + withdrawn
+        return when (!entities.isEmpty()) {
+            true -> getOffsetDto(entities, getLimit(limitParam))
+            else -> getEmptyOffsetDto()
+        }
+    }
+
+    override fun getByOffsetPlan(offset: LocalDateTime?, limitParam: Int?): OffsetDto {
+        val offsetParam = offset?.toDate() ?: epoch().toDate()
+        val planning = offsetTenderRepository.getAllByOffsetAndStatus("planning", offsetParam)
+        val planned = offsetTenderRepository.getAllByOffsetAndStatus("planned", offsetParam)
+        val entities = planning + planned
+        return when (!entities.isEmpty()) {
+            true -> getOffsetDto(entities, getLimit(limitParam))
+            else -> getEmptyOffsetDto()
         }
     }
 
