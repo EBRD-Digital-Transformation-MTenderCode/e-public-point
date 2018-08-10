@@ -27,14 +27,13 @@ interface PublicTenderService {
 
     fun getByOffset(offset: LocalDateTime?, limitParam: Int?): OffsetDto
 
-    fun getByOffsetCn(offset: LocalDateTime?, limitParam: Int?): OffsetDto
-
-    fun getByOffsetPlan(offset: LocalDateTime?, limitParam: Int?): OffsetDto
-
     fun getRecordPackage(cpid: String, offset: LocalDateTime?): RecordPackageDto
 
     fun getRecord(cpid: String, ocid: String, offset: LocalDateTime?): ReleasePackageDto
 
+    fun getByOffsetCn(offset: LocalDateTime?, limitParam: Int?): OffsetDto
+
+    fun getByOffsetPlan(offset: LocalDateTime?, limitParam: Int?): OffsetDto
 }
 
 @Service
@@ -172,9 +171,12 @@ class PublicTenderServiceImpl(
     }
 
     private fun getOffsetDto(entities: List<OffsetTenderEntity>, limit: Int): OffsetDto {
-        val entitiesList = entities.asSequence().sortedBy { it.date }.take(limit).toList()
-        val offset = entitiesList.maxBy { it.date }?.date?.toLocal()
-        val cpIds = entitiesList.asSequence().map { DataDto(it.cpId, it.date.toLocal()) }.toList()
+        val offset = entities.maxBy { it.date }?.date?.toLocal()
+        val cpIds = entities.asSequence()
+                .sortedBy { it.date }
+                .map { DataDto(it.cpId, it.date.toLocal()) }
+                .take(limit)
+                .toList()
         return OffsetDto(data = cpIds, offset = offset)
     }
 

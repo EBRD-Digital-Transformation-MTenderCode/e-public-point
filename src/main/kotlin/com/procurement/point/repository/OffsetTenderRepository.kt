@@ -12,7 +12,7 @@ interface OffsetTenderRepository : CassandraRepository<OffsetTenderEntity, Strin
     @Query(value = "SELECT * FROM notice_offset WHERE release_date>?0 ALLOW FILTERING")
     fun getAllByOffset(offset: Date): List<OffsetTenderEntity>
 
-    @Query(value = "SELECT * FROM notice_offset WHERE status IN ?0 and release_date>?1 ALLOW FILTERING")
-    fun getAllByOffsetByStatus(statuses: List<String>, offset: Date): List<OffsetTenderEntity>
+    @Query(value = "SELECT * FROM notice_offset WHERE status = ?0 and release_date>?1 ALLOW FILTERING")
+    fun getAllByOffsetAndStatus(statuses: String, offset: Date): List<OffsetTenderEntity>
 
 }
