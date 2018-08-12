@@ -131,9 +131,8 @@ class PublicBudgetServiceImpl(
 
     private fun getOffsetDto(entities: List<OffsetBudgetEntity>, limit: Int): OffsetDto {
         val entitiesList = entities.asSequence().sortedBy { it.date }.take(limit).toList()
-        val offset = entitiesList.maxBy { it.date }?.date?.toLocal()
         val cpIds = entitiesList.asSequence().map { DataDto(it.cpId, it.date.toLocal()) }.toList()
-        return OffsetDto(data = cpIds, offset = offset)
+        return OffsetDto(data = cpIds, offset = cpIds.last().date)
     }
 
     private fun getEmptyOffsetDto(): OffsetDto {
