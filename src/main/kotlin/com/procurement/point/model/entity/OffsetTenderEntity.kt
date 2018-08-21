@@ -14,5 +14,8 @@ data class OffsetTenderEntity(
         val date: Date,
 
         @Column(value = "status")
-        val status: String
+        val status: String,
+
+        @Column(value = "stage")
+        val stage: String
 )

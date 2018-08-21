@@ -55,7 +55,7 @@ data class RecordDto(
 
 data class ActualReleaseDto(
 
-        val stage: String,
+        val ocid: String,
 
         val uri: String
 )

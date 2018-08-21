@@ -3,13 +3,7 @@ package com.procurement.point.service
 import com.procurement.point.config.OCDSProperties
 import com.procurement.point.exception.GetDataException
 import com.procurement.point.exception.ParamException
-import com.procurement.point.model.dto.PublisherDto
-import com.procurement.point.model.dto.DataDto
-import com.procurement.point.model.dto.OffsetDto
-import com.procurement.point.model.dto.ActualReleaseDto
-import com.procurement.point.model.dto.RecordDto
-import com.procurement.point.model.dto.RecordPackageDto
-import com.procurement.point.model.dto.ReleasePackageDto
+import com.procurement.point.model.dto.*
 import com.procurement.point.model.entity.OffsetTenderEntity
 import com.procurement.point.model.entity.ReleaseTenderEntity
 import com.procurement.point.repository.OffsetTenderRepository
@@ -55,17 +49,18 @@ class PublicTenderServiceImpl(
     }
 
     override fun getRecordPackage(cpid: String, offset: LocalDateTime?): RecordPackageDto {
+        val actualStage: String = offsetTenderRepository.getStageByCpid(cpid) ?: return getEmptyRecordPackageDto()
         val entities: List<ReleaseTenderEntity>
         return if (offset == null) {
             entities = releaseTenderRepository.getAllCompiledByCpId(cpid)
             when (entities.isNotEmpty()) {
-                true -> getRecordPackageDto(entities, cpid)
+                true -> getRecordPackageDto(entities, cpid, actualStage)
                 else -> throw GetDataException("No releases found.")
             }
         } else {
             entities = releaseTenderRepository.getAllCompiledByCpIdAndOffset(cpid, offset.toDate())
             when (entities.isNotEmpty()) {
-                true -> getRecordPackageDto(entities, cpid)
+                true -> getRecordPackageDto(entities, cpid, actualStage)
                 else -> getEmptyRecordPackageDto()
             }
         }
@@ -121,7 +116,7 @@ class PublicTenderServiceImpl(
         }
     }
 
-    private fun getRecordPackageDto(entities: List<ReleaseTenderEntity>, cpid: String): RecordPackageDto {
+    private fun getRecordPackageDto(entities: List<ReleaseTenderEntity>, cpid: String, actualStage: String): RecordPackageDto {
         val publishedDate = entities.minBy { it.releaseDate }?.releaseDate?.toLocal()
         val records = entities.asSequence()
                 .sortedBy { it.releaseDate }
@@ -129,8 +124,8 @@ class PublicTenderServiceImpl(
                 .toList()
 
         val actualReleases = entities.asSequence()
-                .filter { it.stage != "MS" && it.status == "active"}
-                .map { ActualReleaseDto(stage = it.stage, uri = ocds.path + "tenders/" + it.cpId + "/" + it.ocId) }
+                .filter { it.stage != "MS" && it.stage == actualStage }
+                .map { ActualReleaseDto(ocid = it.ocId, uri = ocds.path + "tenders/" + it.cpId + "/" + it.ocId) }
                 .toList()
 
         val recordUrls = records.map { ocds.path + "tenders/" + it.cpid + "/" + it.ocid }
