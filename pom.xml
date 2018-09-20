@@ -31,7 +31,7 @@
 
         <!--Docker-->
         <docker-registry>dev.docker-registry.eprocurement.systems</docker-registry>
-        <docker-image-profile></docker-image-profile>
+        <docker-image-profile>-swarm</docker-image-profile>
         <docker-maven-plugin.version>0.24.0</docker-maven-plugin.version>
 
         <!--Spring-->
@@ -62,11 +62,6 @@
     </dependencyManagement>
 
     <dependencies>
-        <!--cloud-->
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
-        </dependency>
         <!--Web-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
