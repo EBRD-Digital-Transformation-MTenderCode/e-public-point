@@ -117,7 +117,7 @@ class PublicTenderServiceImpl(
     }
 
     private fun getRecordPackageDto(entities: List<ReleaseTenderEntity>, cpid: String, actualStage: String): RecordPackageDto {
-        val publishedDate = entities.minBy { it.releaseDate }?.releaseDate?.toLocal()
+        val publishedDate = entities.minBy { it.publishDate }?.publishDate?.toLocal()
         val records = entities.asSequence()
                 .sortedBy { it.releaseDate }
                 .map { RecordDto(it.cpId, it.ocId, it.jsonData.toJsonNode()) }
@@ -147,7 +147,7 @@ class PublicTenderServiceImpl(
     }
 
     private fun getReleasePackageDto(entities: List<ReleaseTenderEntity>, cpid: String, ocid: String): ReleasePackageDto {
-        val publishedDate = entities.minBy { it.releaseDate }?.releaseDate?.toLocal()
+        val publishedDate = entities.minBy { it.publishDate }?.publishDate?.toLocal()
         val releases = entities.asSequence()
                 .sortedBy { it.releaseDate }
                 .map { it.jsonData.toJsonNode() }

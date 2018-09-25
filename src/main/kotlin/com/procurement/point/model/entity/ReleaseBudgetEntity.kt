@@ -24,6 +24,9 @@ data class ReleaseBudgetEntity(
         @Column(value = "stage")
         val stage: String,
 
+        @Column(value = "publish_date")
+        val publishDate: Date,
+
         @Column(value = "json_data")
         val jsonData: String
 )
