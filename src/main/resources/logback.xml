@@ -6,9 +6,9 @@
     </appender>
 
     <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>logs/e-public-point.log</file>
+        <file>logs/public-point.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>logs/e-public-point%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <fileNamePattern>logs/public-point%d{yyyy-MM-dd}.%i.log</fileNamePattern>
             <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
                 <maxFileSize>5MB</maxFileSize>
             </timeBasedFileNamingAndTriggeringPolicy>
@@ -22,7 +22,7 @@
                     <fieldName>level</fieldName>
                 </logLevel>
                 <pattern>
-                    <pattern>{"appName": "e-public-point", "appVersion": "18.06.1"}</pattern>
+                    <pattern>{"appName": "public-point", "appVersion": "1.2.3"}</pattern>
                 </pattern>
                 <version/> <!-- Logstash json format version, the @version field in the output-->
                 <loggerName/>
@@ -45,7 +45,7 @@
                     <fieldName>level</fieldName>
                 </logLevel>
                 <pattern>
-                    <pattern>{"appName": "e-public-point", "appVersion": "18.06.1"}</pattern>
+                    <pattern>{"appName": "public-point", "appVersion": "1.2.3"}</pattern>
                 </pattern>
                 <version/> <!-- Logstash json format version, the @version field in the output-->
                 <loggerName/>
