@@ -16,30 +16,17 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.stereotype.Service
 import java.time.LocalDateTime
 
-interface PublicTenderService {
-
-    fun getByOffset(offset: LocalDateTime?, limitParam: Int?): OffsetDto
-
-    fun getRecordPackage(cpid: String, offset: LocalDateTime?): RecordPackageDto
-
-    fun getRecord(cpid: String, ocid: String, offset: LocalDateTime?): ReleasePackageDto
-
-    fun getByOffsetCn(offset: LocalDateTime?, limitParam: Int?): OffsetDto
-
-    fun getByOffsetPlan(offset: LocalDateTime?, limitParam: Int?): OffsetDto
-}
-
 @Service
 @EnableConfigurationProperties(OCDSProperties::class)
-class PublicTenderServiceImpl(
+class PublicTenderService(
         private val releaseTenderRepository: ReleaseTenderRepository,
         private val offsetTenderRepository: OffsetTenderRepository,
-        private val ocds: OCDSProperties) : PublicTenderService {
+        private val ocds: OCDSProperties) {
 
     private val defLimit: Int = ocds.defLimit ?: 100
     private val maxLimit: Int = ocds.maxLimit ?: 300
 
-    override fun getByOffset(offset: LocalDateTime?, limitParam: Int?): OffsetDto {
+    fun getByOffset(offset: LocalDateTime?, limitParam: Int?): OffsetDto {
         val offsetParam = offset ?: epoch()
         val entities = offsetTenderRepository.getAllByOffset(offsetParam.toDate())
         return when (!entities.isEmpty()) {
@@ -48,7 +35,7 @@ class PublicTenderServiceImpl(
         }
     }
 
-    override fun getRecordPackage(cpid: String, offset: LocalDateTime?): RecordPackageDto {
+    fun getRecordPackage(cpid: String, offset: LocalDateTime?): RecordPackageDto {
         val actualStage: String = offsetTenderRepository.getStageByCpid(cpid) ?: return getEmptyRecordPackageDto()
         val entities: List<ReleaseTenderEntity>
         return if (offset == null) {
@@ -66,7 +53,7 @@ class PublicTenderServiceImpl(
         }
     }
 
-    override fun getRecord(cpid: String, ocid: String, offset: LocalDateTime?): ReleasePackageDto {
+    fun getRecord(cpid: String, ocid: String, offset: LocalDateTime?): ReleasePackageDto {
         val entity = releaseTenderRepository.getCompiledByCpIdAndOcid(cpid, ocid)
                 ?: throw GetDataException("No releases found.")
         return if (offset != null) {
@@ -80,7 +67,7 @@ class PublicTenderServiceImpl(
         }
     }
 
-    override fun getByOffsetCn(offset: LocalDateTime?, limitParam: Int?): OffsetDto {
+    fun getByOffsetCn(offset: LocalDateTime?, limitParam: Int?): OffsetDto {
         val offsetParam = offset?.toDate() ?: epoch().toDate()
         val active = offsetTenderRepository.getAllByOffsetAndStatus("active", offsetParam)
         val cancelled = offsetTenderRepository.getAllByOffsetAndStatus("cancelled", offsetParam)
@@ -94,7 +81,7 @@ class PublicTenderServiceImpl(
         }
     }
 
-    override fun getByOffsetPlan(offset: LocalDateTime?, limitParam: Int?): OffsetDto {
+    fun getByOffsetPlan(offset: LocalDateTime?, limitParam: Int?): OffsetDto {
         val offsetParam = offset?.toDate() ?: epoch().toDate()
         val planning = offsetTenderRepository.getAllByOffsetAndStatus("planning", offsetParam)
         val planned = offsetTenderRepository.getAllByOffsetAndStatus("planned", offsetParam)

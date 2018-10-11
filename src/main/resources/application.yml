@@ -2,29 +2,29 @@ server:
   port: 8080
 
 spring:
- application:
-   name: public-point
- data:
-   cassandra:
-     contact-points: 10.0.20.104,10.0.20.105,10.0.20.106
-     keyspace-name: ocds
-     username: caclient
-     password: 6AH7vbrkMWnfK
+  application:
+    name: public-point
+  data:
+    cassandra:
+      contact-points: 10.0.20.104,10.0.20.105,10.0.20.106
+      keyspace-name: ocds
+      username: caclient
+      password: 6AH7vbrkMWnfK
 
 eureka:
   client:
     enabled: false
 
 ocds:
- path: http://public.eprocurement.systems/
- version: 1.1
- license: http://opendefinition.org/licenses/
- publicationPolicy: http://opendefinition.org/licenses/
- extensions:
-   https://raw.githubusercontent.com/open-contracting/ocds_bid_extension/v1.1.1/extension.json,
-   https://raw.githubusercontent.com/open-contracting/ocds_enquiry_extension$/v1.1.1/extension.json
- publisherName: publisher-name
- publisherScheme: publisher-scheme
- publisherUid: publisher-uid
- publisherUri: publisher-uri
- limit: 300
+  path: http://public.eprocurement.systems/
+  version: 1.1
+  license: http://opendefinition.org/licenses/
+  publicationPolicy: http://opendefinition.org/licenses/
+  extensions:
+    https://raw.githubusercontent.com/open-contracting/ocds_bid_extension/v1.1.1/extension.json,
+    https://raw.githubusercontent.com/open-contracting/ocds_enquiry_extension$/v1.1.1/extension.json
+  publisherName: publisher-name
+  publisherScheme: publisher-scheme
+  publisherUid: publisher-uid
+  publisherUri: publisher-uri
+  limit: 300

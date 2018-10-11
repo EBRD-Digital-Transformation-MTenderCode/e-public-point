@@ -16,27 +16,18 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.stereotype.Service
 import java.time.LocalDateTime
 
-interface PublicBudgetService {
-
-    fun getByOffset(offset: LocalDateTime?, limitParam: Int?): OffsetDto
-
-    fun getRecordPackage(cpid: String, offset: LocalDateTime?): RecordPackageDto
-
-    fun getRecord(cpid: String, ocid: String, offset: LocalDateTime?): ReleasePackageDto
-}
-
 @Service
 @EnableConfigurationProperties(OCDSProperties::class)
-class PublicBudgetServiceImpl(
+class PublicBudgetService(
         private val releaseBudgetRepository: ReleaseBudgetRepository,
         private val offsetBudgetRepository: OffsetBudgetRepository,
-        private val ocds: OCDSProperties) : PublicBudgetService {
+        private val ocds: OCDSProperties) {
 
     private val defLimit: Int = ocds.defLimit ?: 100
     private val maxLimit: Int = ocds.maxLimit ?: 300
 
 
-    override fun getByOffset(offset: LocalDateTime?, limitParam: Int?): OffsetDto {
+    fun getByOffset(offset: LocalDateTime?, limitParam: Int?): OffsetDto {
         val offsetParam = offset ?: epoch()
         val entities = offsetBudgetRepository.getAllByOffset(offsetParam.toDate())
         return when (!entities.isEmpty()) {
@@ -45,7 +36,7 @@ class PublicBudgetServiceImpl(
         }
     }
 
-    override fun getRecordPackage(cpid: String, offset: LocalDateTime?): RecordPackageDto {
+    fun getRecordPackage(cpid: String, offset: LocalDateTime?): RecordPackageDto {
         val entities: List<ReleaseBudgetEntity>
         return if (offset == null) {
             entities = releaseBudgetRepository.getAllCompiledByCpId(cpid)
@@ -62,7 +53,7 @@ class PublicBudgetServiceImpl(
         }
     }
 
-    override fun getRecord(cpid: String, ocid: String, offset: LocalDateTime?): ReleasePackageDto {
+    fun getRecord(cpid: String, ocid: String, offset: LocalDateTime?): ReleasePackageDto {
         val entity = releaseBudgetRepository.getCompiledByCpIdAndOcid(cpid, ocid)
                 ?: throw GetDataException("No releases found.")
         return if (offset != null) {

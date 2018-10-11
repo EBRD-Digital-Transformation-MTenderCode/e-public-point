@@ -3,7 +3,6 @@ package com.procurement.point.model.entity
 import org.springframework.data.cassandra.core.cql.PrimaryKeyType
 import org.springframework.data.cassandra.core.mapping.Column
 import org.springframework.data.cassandra.core.mapping.PrimaryKeyColumn
-import org.springframework.data.cassandra.core.mapping.Table
 import java.util.*
 
 data class OffsetBudgetEntity(

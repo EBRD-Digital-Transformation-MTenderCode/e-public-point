@@ -1,7 +1,6 @@
 package com.procurement.point.repository
 
 import com.procurement.point.model.entity.ReleaseBudgetEntity
-import com.procurement.point.model.entity.ReleaseTenderEntity
 import org.springframework.data.cassandra.repository.CassandraRepository
 import org.springframework.data.cassandra.repository.Query
 import org.springframework.stereotype.Repository
