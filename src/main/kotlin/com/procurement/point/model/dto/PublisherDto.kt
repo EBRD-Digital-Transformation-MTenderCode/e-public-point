@@ -7,12 +7,6 @@ data class PublisherDto(
         @JsonProperty("name")
         val name: String?,
 
-        @JsonProperty("scheme")
-        val scheme: String?,
-
-        @JsonProperty("uid")
-        val uid: String?,
-
         @JsonProperty("uri")
         val uri: String?
 )

@@ -23,8 +23,6 @@ ocds:
   extensions:
     https://raw.githubusercontent.com/open-contracting/ocds_bid_extension/v1.1.1/extension.json,
     https://raw.githubusercontent.com/open-contracting/ocds_enquiry_extension$/v1.1.1/extension.json
-  publisherName: publisher-name
-  publisherScheme: publisher-scheme
-  publisherUid: publisher-uid
-  publisherUri: publisher-uri
+  publisherName: M-Tender
+  publisherUri: https://www.mtender.gov.md
   limit: 300

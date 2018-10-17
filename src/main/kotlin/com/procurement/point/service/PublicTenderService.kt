@@ -122,8 +122,6 @@ class PublicTenderService(
                 extensions = ocds.extensions?.toList(),
                 publisher = PublisherDto(
                         name = ocds.publisherName,
-                        scheme = ocds.publisherScheme,
-                        uid = ocds.publisherUid,
                         uri = ocds.publisherUri),
                 license = ocds.license,
                 publicationPolicy = ocds.publicationPolicy,
@@ -145,8 +143,6 @@ class PublicTenderService(
                 extensions = ocds.extensions?.toList(),
                 publisher = PublisherDto(
                         name = ocds.publisherName,
-                        scheme = ocds.publisherScheme,
-                        uid = ocds.publisherUid,
                         uri = ocds.publisherUri),
                 license = ocds.license,
                 publicationPolicy = ocds.publicationPolicy,
