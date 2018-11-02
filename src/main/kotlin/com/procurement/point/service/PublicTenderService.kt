@@ -151,11 +151,8 @@ class PublicTenderService(
     }
 
     private fun getOffsetDto(entities: List<OffsetTenderEntity>, limit: Int): OffsetDto {
-        val cpIds = entities.asSequence()
-                .sortedBy { it.date }
-                .map { DataDto(it.cpId, it.date.toLocal()) }
-                .take(limit)
-                .toList()
+        val entitiesList = entities.asSequence().sortedBy { it.date }.take(limit).toList()
+        val cpIds = entitiesList.asSequence().map { DataDto(it.cpId, it.date.toLocal()) }.toList()
         return OffsetDto(data = cpIds, offset = cpIds.last().date)
     }
 
