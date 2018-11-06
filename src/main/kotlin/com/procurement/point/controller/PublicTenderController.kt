@@ -33,7 +33,7 @@ class PublicTenderController(private val publicService: PublicTenderService) {
                          @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
                          offset: LocalDateTime?,
                          request: HttpServletRequest): ResponseEntity<RecordPackageDto> {
-        checkParams(request.parameterNames.toList(), listOf("cpid", "offset"))
+        checkParams(request.parameterNames.toList(), listOf("offset"))
         return ResponseEntity(publicService.getRecordPackage(cpid, offset), HttpStatus.OK)
     }
 
@@ -44,7 +44,7 @@ class PublicTenderController(private val publicService: PublicTenderService) {
                           @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
                           offset: LocalDateTime?,
                           request: HttpServletRequest): ResponseEntity<ReleasePackageDto> {
-        checkParams(request.parameterNames.toList(), listOf("cpid", "ocid", "offset"))
+        checkParams(request.parameterNames.toList(), listOf("offset"))
         return ResponseEntity(publicService.getRecord(cpid, ocid, offset), HttpStatus.OK)
     }
 
