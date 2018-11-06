@@ -1,5 +1,6 @@
 package com.procurement.point.controller
 
+import com.procurement.point.exception.ParamException
 import com.procurement.point.model.dto.OffsetDto
 import com.procurement.point.model.dto.RecordPackageDto
 import com.procurement.point.model.dto.ReleasePackageDto
@@ -9,6 +10,7 @@ import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import java.time.LocalDateTime
+import javax.servlet.http.HttpServletRequest
 
 @RestController
 @CrossOrigin(maxAge = 3600)
@@ -19,7 +21,9 @@ class PublicTenderController(private val publicService: PublicTenderService) {
     fun getByOffset(@RequestParam(value = "offset", required = false)
                     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
                     offset: LocalDateTime?,
-                    @RequestParam(value = "limit", required = false) limitParam: Int?): ResponseEntity<OffsetDto> {
+                    @RequestParam(value = "limit", required = false) limitParam: Int?,
+                    request: HttpServletRequest): ResponseEntity<OffsetDto> {
+        checkParams(request.parameterNames.toList(), listOf("offset", "limit"))
         return ResponseEntity(publicService.getByOffset(offset, limitParam), HttpStatus.OK)
     }
 
@@ -27,7 +31,9 @@ class PublicTenderController(private val publicService: PublicTenderService) {
     fun getRecordPackage(@PathVariable(value = "cpid") cpid: String,
                          @RequestParam(value = "offset", required = false)
                          @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-                         offset: LocalDateTime?): ResponseEntity<RecordPackageDto> {
+                         offset: LocalDateTime?,
+                         request: HttpServletRequest): ResponseEntity<RecordPackageDto> {
+        checkParams(request.parameterNames.toList(), listOf("cpid", "offset"))
         return ResponseEntity(publicService.getRecordPackage(cpid, offset), HttpStatus.OK)
     }
 
@@ -36,7 +42,9 @@ class PublicTenderController(private val publicService: PublicTenderService) {
                           @PathVariable(value = "ocid") ocid: String,
                           @RequestParam(value = "offset", required = false)
                           @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-                          offset: LocalDateTime?): ResponseEntity<ReleasePackageDto> {
+                          offset: LocalDateTime?,
+                          request: HttpServletRequest): ResponseEntity<ReleasePackageDto> {
+        checkParams(request.parameterNames.toList(), listOf("cpid", "ocid", "offset"))
         return ResponseEntity(publicService.getRecord(cpid, ocid, offset), HttpStatus.OK)
     }
 
@@ -44,7 +52,9 @@ class PublicTenderController(private val publicService: PublicTenderService) {
     fun getByOffsetCn(@RequestParam(value = "offset", required = false)
                       @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
                       offset: LocalDateTime?,
-                      @RequestParam(value = "limit", required = false) limitParam: Int?): ResponseEntity<OffsetDto> {
+                      @RequestParam(value = "limit", required = false) limitParam: Int?,
+                      request: HttpServletRequest): ResponseEntity<OffsetDto> {
+        checkParams(request.parameterNames.toList(), listOf("offset", "limit"))
         return ResponseEntity(publicService.getByOffsetCn(offset, limitParam), HttpStatus.OK)
     }
 
@@ -52,8 +62,16 @@ class PublicTenderController(private val publicService: PublicTenderService) {
     fun getByOffsetPlan(@RequestParam(value = "offset", required = false)
                         @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
                         offset: LocalDateTime?,
-                        @RequestParam(value = "limit", required = false) limitParam: Int?): ResponseEntity<OffsetDto> {
+                        @RequestParam(value = "limit", required = false) limitParam: Int?,
+                        request: HttpServletRequest): ResponseEntity<OffsetDto> {
+        checkParams(request.parameterNames.toList(), listOf("offset", "limit"))
         return ResponseEntity(publicService.getByOffsetPlan(offset, limitParam), HttpStatus.OK)
+    }
+
+    private fun checkParams(parameterNames: List<String>, prams: List<String>) {
+        parameterNames.forEach { paramRq ->
+            if (!prams.contains(paramRq)) throw ParamException("Invalid parameter:'$paramRq'. Valid params: $prams")
+        }
     }
 }
 

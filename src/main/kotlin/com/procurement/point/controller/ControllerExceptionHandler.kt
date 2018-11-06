@@ -17,6 +17,6 @@ class ControllerExceptionHandler {
 
     @ResponseBody
     @ExceptionHandler(ParamException::class)
-    fun getParamException(e: ParamException) = ResponseEntity(e.message, HttpStatus.UNPROCESSABLE_ENTITY)
+    fun getParamException(e: ParamException) = ResponseEntity(e.message, HttpStatus.BAD_REQUEST)
 
 }
