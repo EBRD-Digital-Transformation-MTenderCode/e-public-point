@@ -144,7 +144,6 @@
 
     <build>
         <sourceDirectory>${project.basedir}/src/main/kotlin</sourceDirectory>
-        <testSourceDirectory>${project.basedir}/src/test/kotlin</testSourceDirectory>
 
         <resources>
             <resource>
@@ -171,21 +170,21 @@
                     </execution>
                 </executions>
             </plugin>
-            <!--<plugin>-->
-                <!--<groupId>pl.project13.maven</groupId>-->
-                <!--<artifactId>git-commit-id-plugin</artifactId>-->
-                <!--<configuration>-->
-                    <!--<includeOnlyProperties>-->
-                        <!--<includeOnlyProperty>^git.branch$</includeOnlyProperty>-->
-                        <!--<includeOnlyProperty>^git.build.host$</includeOnlyProperty>-->
-                        <!--<includeOnlyProperty>^git.build.time$</includeOnlyProperty>-->
-                        <!--<includeOnlyProperty>^git.commit.id$</includeOnlyProperty>-->
-                        <!--<includeOnlyProperty>^git.commit.id.abbrev$</includeOnlyProperty>-->
-                        <!--<includeOnlyProperty>^git.commit.user.email$</includeOnlyProperty>-->
-                        <!--<includeOnlyProperty>^git.tags$</includeOnlyProperty>-->
-                    <!--</includeOnlyProperties>-->
-                <!--</configuration>-->
-            <!--</plugin>-->
+            <plugin>
+                <groupId>pl.project13.maven</groupId>
+                <artifactId>git-commit-id-plugin</artifactId>
+                <configuration>
+                    <includeOnlyProperties>
+                        <includeOnlyProperty>^git.branch$</includeOnlyProperty>
+                        <includeOnlyProperty>^git.build.host$</includeOnlyProperty>
+                        <includeOnlyProperty>^git.build.time$</includeOnlyProperty>
+                        <includeOnlyProperty>^git.commit.id$</includeOnlyProperty>
+                        <includeOnlyProperty>^git.commit.id.abbrev$</includeOnlyProperty>
+                        <includeOnlyProperty>^git.commit.user.email$</includeOnlyProperty>
+                        <includeOnlyProperty>^git.tags$</includeOnlyProperty>
+                    </includeOnlyProperties>
+                </configuration>
+            </plugin>
 
             <!--Unit Test (Surefire)-->
             <plugin>
@@ -227,8 +226,9 @@
                     <images>
                         <image>
                             <registry>${docker-registry}</registry>
+                            <!--suppress UnresolvedMavenProperty -->
                             <name>
-                                ${docker-registry}/${project.artifactId}${docker-image-profile}:${project.version}
+                                ${docker-registry}/${project.artifactId}:${project.version}.${git.commit.id.abbrev}
                             </name>
                             <build>
                                 <dockerFileDir>${project.basedir}/src/main</dockerFileDir>
