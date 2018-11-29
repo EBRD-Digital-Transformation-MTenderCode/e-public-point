@@ -1,0 +1,196 @@
+{"ocid": "ocds-b3wdp1-MD-1540286457244", "id": "ocds-b3wdp1-MD-1540286457244-1542779408179", "date": "2018-11-21T05:49:34Z", "tag": [ "compiled" ], "initiationType": "tender", "planning": { "budget": { "amount": { "amount": 930000.00, "currency": "MDL" }, "isEuropeanUnionFunded": false, "budgetBreakdown": [ { "id": "ocds-b3wdp1-MD-1540286139007-FS-1540286365188", "description": "Microscop stereo", "amount": { "amount": 930000.00, "currency": "MDL" }, "period": { "startDate": "2018-10-23T00:00:00Z", "endDate": "2018-12-31T00:00:00Z" }, "sourceParty": { "id": "MD-IDNO-1006601004105", "name": "Centrul de Medicina Legala" } } ] } }, "tender": { "id": "ocds-b3wdp1-MD-1540286457244", "title": "Stereo microscop pentru cercetari medico-legale", "description": "Stereo microscop pentru cercetari medico-legale", "status": "active", "statusDetails": "execution", "value": { "amount": 930000.00, "currency": "MDL" }, "procurementMethod": "open", "procurementMethodDetails": "Licitație deschisă", "mainProcurementCategory": "goods", "hasEnquiries": false, "eligibilityCriteria": "Regulile generale privind naționalitatea și originea, precum și alte criterii de eligibilitate sunt enumerate în Ghidul practic privind procedurile de contractare a acțiunilor externe ale UE (PRAG)", "contractPeriod": { "startDate": "2018-11-13T12:00:00Z", "endDate": "2018-12-31T12:00:00Z" }, "procuringEntity": { "id": "MD-IDNO-1006601004105", "name": "Centrul de Medicina Legala" }, "acceleratedProcedure": { "isAcceleratedProcedure": false }, "classification": { "scheme": "CPV", "id": "38518200-1", "description": "Microscoape stereoscopice sau microscoape de disecţie" }, "designContest": { "serviceContractAward": false }, "electronicWorkflows": { "useOrdering": false, "usePayment": false, "acceptInvoicing": false }, "jointProcurement": { "isJointProcurement": false }, "legalBasis": "NATIONAL_PROCUREMENT_LAW", "procedureOutsourcing": { "procedureOutsourced": false }, "dynamicPurchasingSystem": { "hasDynamicPurchasingSystem": false }, "framework": { "isAFramework": false } }, "parties": [ { "id": "MD-IDNO-1006601004105", "name": "Centrul de Medicina Legala", "identifier": { "scheme": "MD-IDNO", "id": "1006601004105", "legalName": "Centrul de Medicina Legala", "uri": "http://medicina-legala.md" }, "address": { "streetAddress": "Vl.Korolenko,8", "postalCode": "MD-2025", "addressDetails": { "country": { "scheme": "iso-alpha2", "id": "MD", "description": "MOLDOVA", "uri": "http://reference.iatistandard.org" }, "region": { "scheme": "CUATM", "id": "0101000", "description": "mun.Chişinău", "uri": "http://statistica.md" }, "locality": { "scheme": "UN/LOCODE", "id": "0101000", "description": "mun.Chişinău" } } }, "contactPoint": { "name": "Ion Sandu", "email": "ion.sandu@ms.md", "telephone": "022 73 87 33 / 067 744 990" }, "details": { "typeOfBuyer": "MINISTRY", "mainGeneralActivity": "HEALTH" }, "roles": [ "buyer", "payer", "procuringEntity" ] } ], "relatedProcesses": [ { "id": "4d6b4651-ed51-11e8-a546-9ddc63fbb6af", "relationship": [ "x_contracting" ], "scheme": "ocid", "identifier": "ocds-b3wdp1-MD-1540286457244-AC-1543835745036", "uri": "http://public.mtender.gov.md/tenders/ocds-b3wdp1-MD-1540286457244/ocds-b3wdp1-MD-1540286457244-AC-1543835745036" }, { "id": "f2f08632-d6a4-11e8-979a-a531e808df13", "relationship": [ "x_fundingSource" ], "scheme": "ocid", "identifier": "ocds-b3wdp1-MD-1540286139007-FS-1540286365188", "uri": "http://public.mtender.gov.md/budgets/ocds-b3wdp1-MD-1540286139007/ocds-b3wdp1-MD-1540286139007-FS-1540286365188" }, { "id": "96429250-d6b5-11e8-979a-a531e808df13", "relationship": [ "x_evaluation" ], "scheme": "ocid", "identifier": "ocds-b3wdp1-MD-1540286457244-EV-1540293603317", "uri": "http://public.mtender.gov.md/tenders/ocds-b3wdp1-MD-1540286457244/ocds-b3wdp1-MD-1540286457244-EV-1540293603317" }, { "id": "f2f08630-d6a4-11e8-979a-a531e808df13", "relationship": [ "planning" ], "scheme": "ocid", "identifier": "ocds-b3wdp1-MD-1540286457244-PN-1540286457363", "uri": "http://public.mtender.gov.md/tenders/ocds-b3wdp1-MD-1540286457244/ocds-b3wdp1-MD-1540286457244-PN-1540286457363" }, { "id": "f2f08631-d6a4-11e8-979a-a531e808df13", "relationship": [ "x_expenditureItem" ], "scheme": "ocid", "identifier": "ocds-b3wdp1-MD-1540286139007", "uri": "http://public.mtender.gov.md/budgets/ocds-b3wdp1-MD-1540286139007/ocds-b3wdp1-MD-1540286139007"}]}
+
+INSERT INTO notice_compiled_release (cp_id,oc_id,json_data,publish_date,release_date,release_id,stage,status) VALUES ('ocds-b3wdp1-MD-1540286457244','ocds-b3wdp1-MD-1540286457244','{"ocid": "ocds-b3wdp1-MD-1540286457244", "id": "ocds-b3wdp1-MD-1540286457244-1542779408179", "date": "2018-11-21T05:49:34Z", "tag": [ "compiled" ], "initiationType": "tender", "planning": { "budget": { "amount": { "amount": 930000.00, "currency": "MDL" }, "isEuropeanUnionFunded": false, "budgetBreakdown": [ { "id": "ocds-b3wdp1-MD-1540286139007-FS-1540286365188", "description": "Microscop stereo", "amount": { "amount": 930000.00, "currency": "MDL" }, "period": { "startDate": "2018-10-23T00:00:00Z", "endDate": "2018-12-31T00:00:00Z" }, "sourceParty": { "id": "MD-IDNO-1006601004105", "name": "Centrul de Medicina Legala" } } ] } }, "tender": { "id": "ocds-b3wdp1-MD-1540286457244", "title": "Stereo microscop pentru cercetari medico-legale", "description": "Stereo microscop pentru cercetari medico-legale", "status": "active", "statusDetails": "execution", "value": { "amount": 930000.00, "currency": "MDL" }, "procurementMethod": "open", "procurementMethodDetails": "Licitație deschisă", "mainProcurementCategory": "goods", "hasEnquiries": false, "eligibilityCriteria": "Regulile generale privind naționalitatea și originea, precum și alte criterii de eligibilitate sunt enumerate în Ghidul practic privind procedurile de contractare a acțiunilor externe ale UE (PRAG)", "contractPeriod": { "startDate": "2018-11-13T12:00:00Z", "endDate": "2018-12-31T12:00:00Z" }, "procuringEntity": { "id": "MD-IDNO-1006601004105", "name": "Centrul de Medicina Legala" }, "acceleratedProcedure": { "isAcceleratedProcedure": false }, "classification": { "scheme": "CPV", "id": "38518200-1", "description": "Microscoape stereoscopice sau microscoape de disecţie" }, "designContest": { "serviceContractAward": false }, "electronicWorkflows": { "useOrdering": false, "usePayment": false, "acceptInvoicing": false }, "jointProcurement": { "isJointProcurement": false }, "legalBasis": "NATIONAL_PROCUREMENT_LAW", "procedureOutsourcing": { "procedureOutsourced": false }, "dynamicPurchasingSystem": { "hasDynamicPurchasingSystem": false }, "framework": { "isAFramework": false } }, "parties": [ { "id": "MD-IDNO-1006601004105", "name": "Centrul de Medicina Legala", "identifier": { "scheme": "MD-IDNO", "id": "1006601004105", "legalName": "Centrul de Medicina Legala", "uri": "http://medicina-legala.md" }, "address": { "streetAddress": "Vl.Korolenko,8", "postalCode": "MD-2025", "addressDetails": { "country": { "scheme": "iso-alpha2", "id": "MD", "description": "MOLDOVA", "uri": "http://reference.iatistandard.org" }, "region": { "scheme": "CUATM", "id": "0101000", "description": "mun.Chişinău", "uri": "http://statistica.md" }, "locality": { "scheme": "UN/LOCODE", "id": "0101000", "description": "mun.Chişinău" } } }, "contactPoint": { "name": "Ion Sandu", "email": "ion.sandu@ms.md", "telephone": "022 73 87 33 / 067 744 990" }, "details": { "typeOfBuyer": "MINISTRY", "mainGeneralActivity": "HEALTH" }, "roles": [ "buyer", "payer", "procuringEntity" ] } ], "relatedProcesses": [ { "id": "4d6b4651-ed51-11e8-a546-9ddc63fbb6af", "relationship": [ "x_contracting" ], "scheme": "ocid", "identifier": "ocds-b3wdp1-MD-1540286457244-AC-1543835745036", "uri": "http://public.mtender.gov.md/tenders/ocds-b3wdp1-MD-1540286457244/ocds-b3wdp1-MD-1540286457244-AC-1543835745036" }, { "id": "f2f08632-d6a4-11e8-979a-a531e808df13", "relationship": [ "x_fundingSource" ], "scheme": "ocid", "identifier": "ocds-b3wdp1-MD-1540286139007-FS-1540286365188", "uri": "http://public.mtender.gov.md/budgets/ocds-b3wdp1-MD-1540286139007/ocds-b3wdp1-MD-1540286139007-FS-1540286365188" }, { "id": "96429250-d6b5-11e8-979a-a531e808df13", "relationship": [ "x_evaluation" ], "scheme": "ocid", "identifier": "ocds-b3wdp1-MD-1540286457244-EV-1540293603317", "uri": "http://public.mtender.gov.md/tenders/ocds-b3wdp1-MD-1540286457244/ocds-b3wdp1-MD-1540286457244-EV-1540293603317" }, { "id": "f2f08630-d6a4-11e8-979a-a531e808df13", "relationship": [ "planning" ], "scheme": "ocid", "identifier": "ocds-b3wdp1-MD-1540286457244-PN-1540286457363", "uri": "http://public.mtender.gov.md/tenders/ocds-b3wdp1-MD-1540286457244/ocds-b3wdp1-MD-1540286457244-PN-1540286457363" }, { "id": "f2f08631-d6a4-11e8-979a-a531e808df13", "relationship": [ "x_expenditureItem" ], "scheme": "ocid", "identifier": "ocds-b3wdp1-MD-1540286139007", "uri": "http://public.mtender.gov.md/budgets/ocds-b3wdp1-MD-1540286139007/ocds-b3wdp1-MD-1540286139007"}]}',1540286457000,1542779374612,'ocds-b3wdp1-MD-1540286457244-1542779408179','','active')
+
+//delete from ocds.notice_compiled_release where cp_id = 'ocds-b3wdp1-MD-1540286457244' and oc_id ='ocds-b3wdp1-MD-1540286457244-AC-1541032781266';
+//delete from ocds.notice_compiled_release where cp_id = 'ocds-b3wdp1-MD-1540286457244' and oc_id ='ocds-b3wdp1-MD-1540286457244-AC-1542359819606';
+//delete from ocds.notice_compiled_release where cp_id = 'ocds-b3wdp1-MD-1540286457244' and oc_id ='ocds-b3wdp1-MD-1540286457244-AC-1542502317031';
+//delete from ocds.notice_compiled_release where cp_id = 'ocds-b3wdp1-MD-1540286457244' and oc_id ='ocds-b3wdp1-MD-1540286457244-AC-1542584112690';
+//delete from ocds.notice_compiled_release where cp_id = 'ocds-b3wdp1-MD-1540286457244' and oc_id ='ocds-b3wdp1-MD-1540286457244-AC-1544025653882';
+//delete from ocds.notice_compiled_release where cp_id = 'ocds-b3wdp1-MD-1540286457244' and oc_id ='ocds-b3wdp1-MD-1540286457244-AC-1544142051529';
+
+{
+  "ocid": "ocds-b3wdp1-MD-1540286457244",
+  "id": "ocds-b3wdp1-MD-1540286457244-1542779408179",
+  "date": "2018-11-21T05:49:34Z",
+  "tag": [
+    "compiled"
+  ],
+  "initiationType": "tender",
+  "planning": {
+    "budget": {
+      "amount": {
+        "amount": 930000.00,
+        "currency": "MDL"
+      },
+      "isEuropeanUnionFunded": false,
+      "budgetBreakdown": [
+        {
+          "id": "ocds-b3wdp1-MD-1540286139007-FS-1540286365188",
+          "description": "Microscop stereo",
+          "amount": {
+            "amount": 930000.00,
+            "currency": "MDL"
+          },
+          "period": {
+            "startDate": "2018-10-23T00:00:00Z",
+            "endDate": "2018-12-31T00:00:00Z"
+          },
+          "sourceParty": {
+            "id": "MD-IDNO-1006601004105",
+            "name": "Centrul de Medicina Legala"
+          }
+        }
+      ]
+    }
+  },
+  "tender": {
+    "id": "ocds-b3wdp1-MD-1540286457244",
+    "title": "Stereo microscop pentru cercetari medico-legale",
+    "description": "Stereo microscop pentru cercetari medico-legale",
+    "status": "active",
+    "statusDetails": "execution",
+    "value": {
+      "amount": 930000.00,
+      "currency": "MDL"
+    },
+    "procurementMethod": "open",
+    "procurementMethodDetails": "Licitație deschisă",
+    "mainProcurementCategory": "goods",
+    "hasEnquiries": false,
+    "eligibilityCriteria": "Regulile generale privind naționalitatea și originea, precum și alte criterii de eligibilitate sunt enumerate în Ghidul practic privind procedurile de contractare a acțiunilor externe ale UE (PRAG)",
+    "contractPeriod": {
+      "startDate": "2018-11-13T12:00:00Z",
+      "endDate": "2018-12-31T12:00:00Z"
+    },
+    "procuringEntity": {
+      "id": "MD-IDNO-1006601004105",
+      "name": "Centrul de Medicina Legala"
+    },
+    "acceleratedProcedure": {
+      "isAcceleratedProcedure": false
+    },
+    "classification": {
+      "scheme": "CPV",
+      "id": "38518200-1",
+      "description": "Microscoape stereoscopice sau microscoape de disecţie"
+    },
+    "designContest": {
+      "serviceContractAward": false
+    },
+    "electronicWorkflows": {
+      "useOrdering": false,
+      "usePayment": false,
+      "acceptInvoicing": false
+    },
+    "jointProcurement": {
+      "isJointProcurement": false
+    },
+    "legalBasis": "NATIONAL_PROCUREMENT_LAW",
+    "procedureOutsourcing": {
+      "procedureOutsourced": false
+    },
+    "dynamicPurchasingSystem": {
+      "hasDynamicPurchasingSystem": false
+    },
+    "framework": {
+      "isAFramework": false
+    }
+  },
+  "parties": [
+    {
+      "id": "MD-IDNO-1006601004105",
+      "name": "Centrul de Medicina Legala",
+      "identifier": {
+        "scheme": "MD-IDNO",
+        "id": "1006601004105",
+        "legalName": "Centrul de Medicina Legala",
+        "uri": "http://medicina-legala.md"
+      },
+      "address": {
+        "streetAddress": "Vl.Korolenko,8",
+        "postalCode": "MD-2025",
+        "addressDetails": {
+          "country": {
+            "scheme": "iso-alpha2",
+            "id": "MD",
+            "description": "MOLDOVA",
+            "uri": "http://reference.iatistandard.org"
+          },
+          "region": {
+            "scheme": "CUATM",
+            "id": "0101000",
+            "description": "mun.Chişinău",
+            "uri": "http://statistica.md"
+          },
+          "locality": {
+            "scheme": "UN/LOCODE",
+            "id": "0101000",
+            "description": "mun.Chişinău"
+          }
+        }
+      },
+      "contactPoint": {
+        "name": "Ion Sandu",
+        "email": "ion.sandu@ms.md",
+        "telephone": "022 73 87 33 / 067 744 990"
+      },
+      "details": {
+        "typeOfBuyer": "MINISTRY",
+        "mainGeneralActivity": "HEALTH"
+      },
+      "roles": [
+        "buyer",
+        "payer",
+        "procuringEntity"
+      ]
+    }
+  ],
+  "relatedProcesses": [
+    {
+      "id": "4d6b4651-ed51-11e8-a546-9ddc63fbb6af",
+      "relationship": [
+        "x_contracting"
+      ],
+      "scheme": "ocid",
+      "identifier": "ocds-b3wdp1-MD-1540286457244-AC-1543835745036",
+      "uri": "http://public.mtender.gov.md/tenders/ocds-b3wdp1-MD-1540286457244/ocds-b3wdp1-MD-1540286457244-AC-1543835745036"
+    },
+    {
+      "id": "f2f08632-d6a4-11e8-979a-a531e808df13",
+      "relationship": [
+        "x_fundingSource"
+      ],
+      "scheme": "ocid",
+      "identifier": "ocds-b3wdp1-MD-1540286139007-FS-1540286365188",
+      "uri": "http://public.mtender.gov.md/budgets/ocds-b3wdp1-MD-1540286139007/ocds-b3wdp1-MD-1540286139007-FS-1540286365188"
+    },
+    {
+      "id": "96429250-d6b5-11e8-979a-a531e808df13",
+      "relationship": [
+        "x_evaluation"
+      ],
+      "scheme": "ocid",
+      "identifier": "ocds-b3wdp1-MD-1540286457244-EV-1540293603317",
+      "uri": "http://public.mtender.gov.md/tenders/ocds-b3wdp1-MD-1540286457244/ocds-b3wdp1-MD-1540286457244-EV-1540293603317"
+    },
+    {
+      "id": "f2f08630-d6a4-11e8-979a-a531e808df13",
+      "relationship": [
+        "planning"
+      ],
+      "scheme": "ocid",
+      "identifier": "ocds-b3wdp1-MD-1540286457244-PN-1540286457363",
+      "uri": "http://public.mtender.gov.md/tenders/ocds-b3wdp1-MD-1540286457244/ocds-b3wdp1-MD-1540286457244-PN-1540286457363"
+    },
+    {
+      "id": "f2f08631-d6a4-11e8-979a-a531e808df13",
+      "relationship": [
+        "x_expenditureItem"
+      ],
+      "scheme": "ocid",
+      "identifier": "ocds-b3wdp1-MD-1540286139007",
+      "uri": "http://public.mtender.gov.md/budgets/ocds-b3wdp1-MD-1540286139007/ocds-b3wdp1-MD-1540286139007"
+    }
+  ]
+}
