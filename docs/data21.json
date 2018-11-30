@@ -1,0 +1,12 @@
+delete  from ocds.contracting_ac where cp_id  = 'ocds-b3wdp1-MD-1541061002742' and ac_id = 'ocds-b3wdp1-MD-1541061002742-AC-1541220583841';
+delete  from ocds.contracting_ac where cp_id  = 'ocds-b3wdp1-MD-1541061002742' and ac_id = 'ocds-b3wdp1-MD-1541061002742-AC-1541578601752';
+delete  from ocds.contracting_ac where cp_id  = 'ocds-b3wdp1-MD-1541061002742' and ac_id = 'ocds-b3wdp1-MD-1541061002742-AC-1541903520319';
+delete  from ocds.contracting_ac where cp_id  = 'ocds-b3wdp1-MD-1541061002742' and ac_id = 'ocds-b3wdp1-MD-1541061002742-AC-1542532583207';
+delete  from ocds.contracting_ac where cp_id  = 'ocds-b3wdp1-MD-1541061002742' and ac_id = 'ocds-b3wdp1-MD-1541061002742-AC-1542684781385';
+delete  from ocds.contracting_ac where cp_id  = 'ocds-b3wdp1-MD-1541061002742' and ac_id = 'ocds-b3wdp1-MD-1541061002742-AC-1543094716759';
+delete  from ocds.contracting_ac where cp_id  = 'ocds-b3wdp1-MD-1541061002742' and ac_id = 'ocds-b3wdp1-MD-1541061002742-AC-1543115563381';
+delete  from ocds.contracting_ac where cp_id  = 'ocds-b3wdp1-MD-1541061002742' and ac_id = 'ocds-b3wdp1-MD-1541061002742-AC-1543295159096';
+delete  from ocds.contracting_ac where cp_id  = 'ocds-b3wdp1-MD-1541061002742' and ac_id = 'ocds-b3wdp1-MD-1541061002742-AC-1543598506592';
+delete  from ocds.contracting_ac where cp_id  = 'ocds-b3wdp1-MD-1541061002742' and ac_id = 'ocds-b3wdp1-MD-1541061002742-AC-1543892634962';
+delete  from ocds.contracting_ac where cp_id  = 'ocds-b3wdp1-MD-1541061002742' and ac_id = 'ocds-b3wdp1-MD-1541061002742-AC-1545018084202';
+delete  from ocds.contracting_ac where cp_id  = 'ocds-b3wdp1-MD-1541061002742' and ac_id = 'ocds-b3wdp1-MD-1541061002742-AC-1545097584351';
