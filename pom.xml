@@ -24,19 +24,25 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
+
         <!--Kotlin-->
         <kotlin.version>1.2.70</kotlin.version>
         <kotlin.compiler.incremental>true</kotlin.compiler.incremental>
+
         <!--Spring-->
         <spring-cloud.version>Finchley.RELEASE</spring-cloud.version>
+
         <!--Loggin-->
         <logstash.logback.encoder.version>4.11</logstash.logback.encoder.version>
+
         <!--Test-->
         <junit-jupiter.version>5.2.0</junit-jupiter.version>
         <junit-platform.version>1.2.0</junit-platform.version>
+
         <!--Plugins-->
         <maven-surefire-plugin.version>2.21.0</maven-surefire-plugin.version>
         <maven-failsafe-plugin.version>2.21.0</maven-failsafe-plugin.version>
+
         <!--Docker-->
         <docker-registry>dev.docker-registry.eprocurement.systems</docker-registry>
         <docker-image-profile></docker-image-profile>
@@ -56,7 +62,7 @@
     </dependencyManagement>
 
     <dependencies>
-        <!--Web-->
+        <!--Spring-->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-config</artifactId>
@@ -67,14 +73,9 @@
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <!--DB-->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-cassandra</artifactId>
         </dependency>
+
         <!--Kotlin-->
         <dependency>
             <groupId>org.jetbrains.kotlin</groupId>
@@ -91,11 +92,13 @@
             <artifactId>kotlin-annotation-processing-maven</artifactId>
             <version>${kotlin.version}</version>
         </dependency>
+
         <!--Jackson-->
         <dependency>
             <groupId>com.fasterxml.jackson.module</groupId>
             <artifactId>jackson-module-kotlin</artifactId>
         </dependency>
+
         <!--Apache lib-->
         <dependency>
             <groupId>commons-lang</groupId>
@@ -112,6 +115,7 @@
             <artifactId>springfox-swagger2</artifactId>
             <version>2.6.1</version>
         </dependency>
+
         <!--Logging-->
         <dependency>
             <groupId>org.slf4j</groupId>
@@ -138,6 +142,13 @@
             <artifactId>logstash-logback-encoder</artifactId>
             <version>${logstash.logback.encoder.version}</version>
         </dependency>
+
+        <!--Test-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <build>
@@ -156,66 +167,6 @@
         </resources>
 
         <plugins>
-            <!--Spring Boot-->
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-
-            <!--Unit Test (Surefire)-->
-            <plugin>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>${maven-surefire-plugin.version}</version>
-                <dependencies>
-                    <dependency>
-                        <groupId>org.junit.platform</groupId>
-                        <artifactId>junit-platform-surefire-provider</artifactId>
-                        <version>${junit-platform.version}</version>
-                    </dependency>
-                    <dependency>
-                        <groupId>org.junit.jupiter</groupId>
-                        <artifactId>junit-jupiter-engine</artifactId>
-                        <version>${junit-jupiter.version}</version>
-                    </dependency>
-                </dependencies>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-failsafe-plugin</artifactId>
-                <version>${maven-failsafe-plugin.version}</version>
-                <executions>
-                    <execution>
-                        <id>default-integration-test</id>
-                        <goals>
-                            <goal>integration-test</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-
-            <!--Build Docker Image (fabric8)-->
-            <plugin>
-                <groupId>io.fabric8</groupId>
-                <artifactId>docker-maven-plugin</artifactId>
-                <version>${docker-maven-plugin.version}</version>
-                <configuration>
-                    <images>
-                        <image>
-                            <registry>${docker-registry}</registry>
-                            <name>${docker-registry}/${project.artifactId}${docker-image-profile}:${project.version}
-                            </name>
-                            <build>
-                                <dockerFileDir>${project.basedir}/src/main</dockerFileDir>
-                                <nocache/>
-                                <assembly>
-                                    <descriptorRef>artifact</descriptorRef>
-                                </assembly>
-                            </build>
-                        </image>
-                    </images>
-                </configuration>
-            </plugin>
-
             <!--Kotlin compiler-->
             <plugin>
                 <artifactId>kotlin-maven-plugin</artifactId>
@@ -275,6 +226,66 @@
                         </goals>
                     </execution>
                 </executions>
+            </plugin>
+
+            <!--Spring Boot-->
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+
+            <!--Unit Test (Surefire)-->
+            <plugin>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>${maven-surefire-plugin.version}</version>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.junit.platform</groupId>
+                        <artifactId>junit-platform-surefire-provider</artifactId>
+                        <version>${junit-platform.version}</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.junit.jupiter</groupId>
+                        <artifactId>junit-jupiter-engine</artifactId>
+                        <version>${junit-jupiter.version}</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <version>${maven-failsafe-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <id>default-integration-test</id>
+                        <goals>
+                            <goal>integration-test</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!--Build Docker Image (fabric8)-->
+            <plugin>
+                <groupId>io.fabric8</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
+                <version>${docker-maven-plugin.version}</version>
+                <configuration>
+                    <images>
+                        <image>
+                            <registry>${docker-registry}</registry>
+                            <name>${docker-registry}/${project.artifactId}${docker-image-profile}:${project.version}
+                            </name>
+                            <build>
+                                <dockerFileDir>${project.basedir}/src/main</dockerFileDir>
+                                <nocache/>
+                                <assembly>
+                                    <descriptorRef>artifact</descriptorRef>
+                                </assembly>
+                            </build>
+                        </image>
+                    </images>
+                </configuration>
             </plugin>
         </plugins>
     </build>
