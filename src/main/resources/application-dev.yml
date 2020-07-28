@@ -6,17 +6,15 @@ spring:
     name: public-point
   data:
     cassandra:
-      contact-points: 10.0.20.104,10.0.20.105,10.0.20.106
+      contact-points: localhost
       keyspace-name: ocds
-      username: caclient
-      password: 6AH7vbrkMWnfK
 
 eureka:
   client:
     enabled: false
 
 ocds:
-  path: http://public.eprocurement.systems/
+  path: http://public.example.com/
   version: 1.1
   license: http://opendefinition.org/licenses/
   publicationPolicy: http://opendefinition.org/licenses/
@@ -24,7 +22,7 @@ ocds:
     https://raw.githubusercontent.com/open-contracting/ocds_bid_extension/v1.1.1/extension.json,
     https://raw.githubusercontent.com/open-contracting/ocds_enquiry_extension$/v1.1.1/extension.json
   publisherName: M-Tender
-  publisherUri: https://www.mtender.gov.md
+  publisherUri: https://www.example.com
   limit: 300
 
 health:
