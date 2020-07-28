@@ -1,6 +1,0 @@
-
-mvn clean package docker:build docker:push
-
-docker push docker-registry.eprocurement.systems/public-point:18.06.1
-
-path: http://bpe.eprocurement.systems/api/v1/public/budget?offset=2018-06-01T11%3A13%3A47.449Z&limit=100
