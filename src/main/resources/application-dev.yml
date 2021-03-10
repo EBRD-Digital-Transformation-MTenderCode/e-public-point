@@ -9,6 +9,9 @@ spring:
       contact-points: localhost
       keyspace-name: ocds
 
+  cache:
+    jcache:
+      config: classpath:ehcache.xml
 eureka:
   client:
     enabled: false
