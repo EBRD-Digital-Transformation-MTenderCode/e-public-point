@@ -12,7 +12,6 @@ interface RecordPackageMetadataRepository : CassandraRepository<MetadataEntity, 
     companion object {
         const val TABLE = "record_package_metadata"
 
-
         /**
          * Temporal Partition surrogate key.
          * All records will be saved at one node

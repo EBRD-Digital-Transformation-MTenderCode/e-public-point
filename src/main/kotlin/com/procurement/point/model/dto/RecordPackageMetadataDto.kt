@@ -2,7 +2,6 @@ package com.procurement.point.model.dto
 
 import java.io.Serializable
 
-
 data class RecordPackageMetadataDto(
 
     val extensions: List<String>,

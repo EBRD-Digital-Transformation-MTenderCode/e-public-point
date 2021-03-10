@@ -4,10 +4,8 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.procurement.point.exception.InternalException
 import com.procurement.point.model.dto.RecordPackageMetadataDto
 import com.procurement.point.repository.RecordPackageMetadataRepository
-import org.springframework.cache.annotation.CacheEvict
 import org.springframework.cache.annotation.Cacheable
 import org.springframework.stereotype.Service
-
 
 @Service
 class MetadataService(
@@ -24,10 +22,8 @@ class MetadataService(
         const val EXTENSIONS = "extensions"
     }
 
-
     @Cacheable(cacheNames = ["metadata-cache"])
     fun getMetadata(): RecordPackageMetadataDto {
-        println("Without cache")
         val metadataEntities = recordPackageMetadataRepository.getMetadata()
             .associateBy { it.attribute }
 
@@ -55,8 +51,3 @@ class MetadataService(
         throw InternalException("Missing '$attribute' in DB table for record package metadata.")
 
 }
-
-fun qwe(): String {
-    return ""
-}
-
