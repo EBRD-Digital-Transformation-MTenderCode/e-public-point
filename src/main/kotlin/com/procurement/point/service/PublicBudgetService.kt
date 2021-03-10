@@ -7,6 +7,7 @@ import com.procurement.point.model.dto.*
 import com.procurement.point.model.entity.OffsetBudgetEntity
 import com.procurement.point.model.entity.ReleaseBudgetEntity
 import com.procurement.point.repository.OffsetBudgetRepository
+import com.procurement.point.repository.RecordPackageMetadataRepository
 import com.procurement.point.repository.ReleaseBudgetRepository
 import com.procurement.point.utils.epoch
 import com.procurement.point.utils.toDate
@@ -21,6 +22,7 @@ import java.time.LocalDateTime
 class PublicBudgetService(
         private val releaseBudgetRepository: ReleaseBudgetRepository,
         private val offsetBudgetRepository: OffsetBudgetRepository,
+        private val metadataService: MetadataService,
         private val ocds: OCDSProperties) {
 
     private val defLimit: Int = ocds.defLimit ?: 100
@@ -83,15 +85,16 @@ class PublicBudgetService(
         val records = entities.asSequence().sortedBy { it.releaseDate }
                 .map { RecordDto(it.cpId, it.ocId, it.jsonData.toJsonNode()) }.toList()
         val recordUrls = records.map { ocds.path + "budgets/" + it.cpid + "/" + it.ocid }
+        val metadata = metadataService.getMetadata()
         return RecordPackageDto(
                 uri = ocds.path + "budgets/" + cpid,
-                version = ocds.version,
-                extensions = ocds.extensions?.toList(),
+                version = metadata.version,
+                extensions = metadata.extensions.toList(),
                 publisher = PublisherDto(
-                        name = ocds.publisherName,
-                        uri = ocds.publisherUri),
-                license = ocds.license,
-                publicationPolicy = ocds.publicationPolicy,
+                        name = metadata.publisherName,
+                        uri = metadata.publisherUri),
+                license = metadata.license,
+                publicationPolicy = metadata.publicationPolicy,
                 publishedDate = publishedDate,
                 packages = recordUrls,
                 records = records,
@@ -103,15 +106,16 @@ class PublicBudgetService(
         val publishedDate = entities.minBy { it.publishDate }?.publishDate?.toLocal()
         val releases = entities.asSequence().sortedBy { it.releaseDate }
                 .map { it.jsonData.toJsonNode() }.toList()
+        val metadata = metadataService.getMetadata()
         return ReleasePackageDto(
                 uri = ocds.path + "budgets/" + cpid + "/" + ocid,
-                version = ocds.version,
-                extensions = ocds.extensions?.toList(),
+                version = metadata.version,
+                extensions = metadata.extensions.toList(),
                 publisher = PublisherDto(
-                        name = ocds.publisherName,
-                        uri = ocds.publisherUri),
-                license = ocds.license,
-                publicationPolicy = ocds.publicationPolicy,
+                        name = metadata.publisherName,
+                        uri = metadata.publisherUri),
+                license = metadata.license,
+                publicationPolicy = metadata.publicationPolicy,
                 publishedDate = publishedDate,
                 releases = releases)
     }
