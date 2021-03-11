@@ -21,6 +21,7 @@ import java.time.LocalDateTime
 class PublicTenderService(
         private val releaseTenderRepository: ReleaseTenderRepository,
         private val offsetTenderRepository: OffsetTenderRepository,
+        private val metadataService: MetadataService,
         private val ocds: OCDSProperties) {
 
     private val defLimit: Int = ocds.defLimit ?: 100
@@ -116,15 +117,16 @@ class PublicTenderService(
                 .toList()
 
         val recordUrls = records.map { ocds.path + "tenders/" + it.cpid + "/" + it.ocid }
+        val metadata = metadataService.getMetadata()
         return RecordPackageDto(
                 uri = ocds.path + "tenders/" + cpid,
-                version = ocds.version,
-                extensions = ocds.extensions?.toList(),
+                version = metadata.version,
+                extensions = metadata.extensions.toList(),
                 publisher = PublisherDto(
-                        name = ocds.publisherName,
-                        uri = ocds.publisherUri),
-                license = ocds.license,
-                publicationPolicy = ocds.publicationPolicy,
+                        name = metadata.publisherName,
+                        uri = metadata.publisherUri),
+                license = metadata.license,
+                publicationPolicy = metadata.publicationPolicy,
                 publishedDate = publishedDate,
                 packages = recordUrls,
                 records = records,
@@ -137,15 +139,16 @@ class PublicTenderService(
                 .sortedBy { it.releaseDate }
                 .map { it.jsonData.toJsonNode() }
                 .toList()
+        val metadata = metadataService.getMetadata()
         return ReleasePackageDto(
                 uri = ocds.path + "tenders/" + cpid + "/" + ocid,
-                version = ocds.version,
-                extensions = ocds.extensions?.toList(),
+                version = metadata.version,
+                extensions = metadata.extensions.toList(),
                 publisher = PublisherDto(
-                        name = ocds.publisherName,
-                        uri = ocds.publisherUri),
-                license = ocds.license,
-                publicationPolicy = ocds.publicationPolicy,
+                        name = metadata.publisherName,
+                        uri = metadata.publisherUri),
+                license = metadata.license,
+                publicationPolicy = metadata.publicationPolicy,
                 publishedDate = publishedDate,
                 releases = releases)
     }
