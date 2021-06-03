@@ -33,4 +33,11 @@ class ControllerExceptionHandler {
         return ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR)
     }
 
+
+    @ResponseBody
+    @ExceptionHandler(Exception::class)
+    fun exception(e: Exception): ResponseEntity<String> {
+        LOG.error("Error", e)
+        return ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR)
+    }
 }
